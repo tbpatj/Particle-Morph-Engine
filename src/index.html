@@ -9,8 +9,36 @@
   <body>
     <canvas id="particle-container"></canvas>
     <canvas id="background-particle-container"></canvas>
-    <script>
-    </script>
     <script type="module" src="index.ts"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded",async () => {
+        // Code to be executed after the DOM is loaded
+        console.log("initializing")
+        const test = await particles.init("particle-container", "background-particle-container");
+        console.log(test)
+        console.log(particles.addInputGroup)
+        if(particles.glReady) particles.start()
+        particles.addInputGroup({
+                resPerc: 100,
+                prtclDstRng: 0,
+                xPos: `${50}px`,
+                yPos: `${0 + 500}px`,
+                inputs: [
+                  { text: "test", color: "#000000", align: "left" },
+                ],
+                group: 0,
+                rot: 0,
+                // clickCallback: () => setNextUp(Number(i)),
+                // action: {
+                //   type: "point",
+                //   xPos: `${prevPosX}px`,
+                //   yPos: `${prevPosY + 500}px`,
+                //   mode: "set",
+                // },
+                allocatedParticles: 3000,
+              });
+      });
+      // particles.init("particle-container", "background-particle-container")
+    </script>
   </body>
 </html>

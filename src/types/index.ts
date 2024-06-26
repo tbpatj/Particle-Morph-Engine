@@ -1,4 +1,6 @@
+import { CanvasPointData } from "../canvasReader/canvasReading";
 import {
+  AddFromPoints,
   DeleteAllGroups,
   DisableGroups,
   EnableGroups,
@@ -104,6 +106,7 @@ export interface ParticleController {
   enableGroups: EnableGroups;
   disableGroups: DisableGroups;
   addInputGroup: AddInputGroupFunc;
+  addFromPoints: AddFromPoints;
   groupAction: (
     action: GroupAction | GroupIndividualAction,
     group: number
@@ -119,6 +122,7 @@ export const initialParticleController: ParticleController = {
     lifetime: number,
     offset?: number
   ) => {},
+  addFromPoints: (points: CanvasPointData, gInput: GroupInput) => {},
   enableGroups: (groupIds: number[]) => {},
   disableGroups: (groupIds: number[]) => {},
   addInputGroup: (gInput: GroupInput) => {},
@@ -139,6 +143,12 @@ export interface GLRendering {
   glDeps: GLDeps | null;
   /** lets the project know when the gl context has been intialized */
   glReady: boolean;
+}
+
+export interface CanvasReader {
+  readerCE: HTMLCanvasElement | null;
+  ctx: CanvasRenderingContext2D | null;
+  readerSize: { width: number; height: number };
 }
 
 export interface ParticleOptions {
@@ -162,11 +172,12 @@ export interface WrapperControlFuncs {
   /** start the loop for the particles */
   start: () => void;
   /** initialize the particles by passing in the id for the actual canvas that renders the particles, and a seperate canvas id for another canvas element (WHICH SHOULD BE HIDDEN) that renders images and other objects to be turned into particles */
-  init: (particleCanvasId: string, backgroundCanvasId: string) => void;
+  init: (particleCanvasId: string, backgroundCanvasId: string) => boolean;
 }
 
 export type ParticleGlobalController = ParticleController &
   GLRendering &
+  CanvasReader &
   WrapperControlFuncs &
   ParticleGroupsList &
   ParticleOptions &

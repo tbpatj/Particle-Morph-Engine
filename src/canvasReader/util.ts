@@ -66,7 +66,7 @@ export const stringToOperations = (string: string) => {
   if (!string) return [];
   const operations = string
     .trim()
-    .replaceAll(" ", "")
+    .replace(/\s/g, "")
     .split(/(-)|(\+)|(\/)|(\*)|(\()|(\))|(\,)/)
     .filter((s) => s !== undefined && s !== "");
   return operations;

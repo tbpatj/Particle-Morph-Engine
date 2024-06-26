@@ -5,11 +5,14 @@ import { GroupAction, GroupIndividualAction } from "./types/groups";
 import { GroupInput } from "./types/particleReader";
 import { initialMouseCursorObject } from "./types/mouse";
 import { startLoop } from "./particles/start";
+import { CanvasPointData } from "./canvasReader/canvasReading";
 
 globalThis.particles = {
   deleteAllGroups: (useGroupLifetime?: boolean) =>
     console.error("Particles not initialized"),
   setGroupLifetime: (groupIds: number[], lifetime: number, offset?: number) =>
+    console.error("Particles not initialized"),
+  addFromPoints: (points: CanvasPointData, gInput: GroupInput) =>
     console.error("Particles not initialized"),
   enableGroups: (groupIds: number[]) =>
     console.error("Particles not initialized"),
@@ -26,6 +29,9 @@ globalThis.particles = {
   gl: null,
   glCE: null,
   glReady: false,
+  readerCE: null,
+  ctx: null,
+  readerSize: { width: 0, height: 0 },
   pGroups: {},
   options: DEFAULT_OPTIONS,
   mouse: initialMouseCursorObject,

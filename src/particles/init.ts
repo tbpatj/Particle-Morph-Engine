@@ -1,3 +1,4 @@
+import { initCanvasReader } from "../canvasReader/init";
 import { cleanUpGL } from "../webgl/cleanup";
 import { initalizeGLRenderingContext } from "../webgl/init";
 import { inititalizeGLDependencies } from "../webgl/initialization/dependencies";
@@ -46,6 +47,9 @@ export const initParticles = (
       "WebGL2RenderingContext was not able to be created from the particleCanvasId provided."
     );
 
+  //initialize the canvas reader
+  const result = initCanvasReader(rCanvas as HTMLCanvasElement);
+
   initMouse();
 
   //TODO add the event listeners for all the needed events, such as window resizing, unmounting, mouse, etc.
@@ -57,4 +61,5 @@ export const initParticles = (
     cleanUpMouse();
     cleanUpGL(particles.gl, particles.glDeps);
   });
+  return true;
 };
