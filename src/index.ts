@@ -6,6 +6,7 @@ import { GroupInput } from "./types/particleReader";
 import { initialMouseCursorObject } from "./types/mouse";
 import { startLoop } from "./particles/start";
 import { CanvasPointData } from "./canvasReader/canvasReading";
+import { loadImageURL } from "./utils/loadImage";
 
 globalThis.particles = {
   deleteAllGroups: (useGroupLifetime?: boolean) =>
@@ -24,6 +25,7 @@ globalThis.particles = {
     console.error("Particles not initialized"),
   init: initParticles,
   start: startLoop,
+  loadImageURL: loadImageURL,
   loop: () => console.error("Particles not initialized"),
   enabled: false,
   ready: false,
@@ -39,5 +41,3 @@ globalThis.particles = {
   dpi: window.innerWidth < 1000 ? window.devicePixelRatio || 1 : 1,
   lastDPIUpdate: new Date().getTime(),
 } as ParticleGlobalController;
-
-console.log(particles);

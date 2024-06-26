@@ -70,5 +70,6 @@ export const initParticles = (
     cleanUpGL(particles.gl, particles.glDeps);
     cleanUpMisc();
   });
+  particles.ready = true;
   return true;
 };

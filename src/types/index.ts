@@ -175,6 +175,10 @@ export interface WrapperControlFuncs {
   init: (particleCanvasId: string, backgroundCanvasId: string) => boolean;
 }
 
+export interface Util {
+  loadImageURL(url: string): Promise<HTMLImageElement>;
+}
+
 export type ParticleGlobalController = ParticleController &
   GLRendering &
   CanvasReader &
@@ -183,4 +187,5 @@ export type ParticleGlobalController = ParticleController &
   ParticleOptions &
   Mouse &
   RenderLoop &
-  DPIAndFPS;
+  DPIAndFPS &
+  Util;
