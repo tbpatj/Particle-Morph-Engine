@@ -3,6 +3,8 @@ const drag = 0.985;
 const destDrag = 0.93;
 const destIntensity = 200.1;
 
+//TODO reimpliment the different mouse actionos, need to put the interaction_type on the interaction_props vector as value z, so the user can quickly update the interaction
+
 export const getVertexShader = (options: DefaultedWrapperOptions) => {
   const lfOff = options.lifetimeOffsetRng + 0.1;
   const maxGroups = options.maxGroups;
