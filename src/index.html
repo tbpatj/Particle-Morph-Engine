@@ -17,48 +17,34 @@
         particles.init("particle-container", "background-particle-container");
         if(particles.glReady) particles.start()
         
-        const myImage = await particles.loadImageURL(
-  "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTaT9RCoxD50znJEgMWrIWRg1fhIaNW_cHojp5TWkv0VvUk1e9NYfPeLA_KIaLL5NWV5vX0Pg9Z-wvYa8582txK6Jt-QMI76gJjfr_KxQ"
-);
-const myImage2 = await particles.loadImageURL(
-  "data:image/webp;base64,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"
-);
+        //load in an image
+        // const myImage = await particles.loadImageURL("");
 
-particles.addInputGroup({
-  group: 0,
-  xPos: "50%",
-  yPos: "50%",
-  inputs: [
-    
-    {
-      image: myImage,
-    },
-  ],
-  allocatedParticles: 8000,
-  radius: 3,
-  removeWhite: true,
-});
-
-setTimeout(() =>{
-  particles.addInputGroup({
-  group: 0,
-  xPos: "50%",
-  yPos: "50%",
-  inputs: [
-    
-    {
-      image: myImage2,
-    },
-  ],
-  allocatedParticles: 8000,
-  radius: 3,
-  removeWhite: true,
-});
-},4000)
+        particles.addInputGroup({
+          group: 0,
+          xPos: "50%",
+          yPos: "50%",
+          inputs: [
+            //add the image to the inputs
+            // {
+            //   image: myImage,
+            // },
+            {
+              text:"Hello World"
+            }
+          ],
+          allocatedParticles: 8000,
+          radius: 3,
+          removeWhite: true,
+          action:{
+            type:"both",
+            xPos:"50%",
+            yPos:"50%",
+            mode: "set",
+          }
+        });
 
       });
-      
-      // particles.init("particle-container", "background-particle-container")
-    </script>
+       </script>
   </body>
 </html>
