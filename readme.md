@@ -2,6 +2,10 @@
 
 A particle library that enables users to create images objects shapes and text out of particles and render them quickly and effiecently using webGL, enabling the usage of hundreds of thousands of particles, perhaps even millions in the web browser. The particles are interactable with the mouse, and can be dragged or interacted with a click.
 
+
+https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49c5-85f1-a4956be87166
+
+
 # How to Setup:
 
 Load in the library using the script tag, using either a built .js file or the provided project included, perhaps suppoort for npm later
