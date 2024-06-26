@@ -1,4 +1,5 @@
 import { initCanvasReader } from "../canvasReader/init";
+import { initGroups } from "../groups/init";
 import { cleanUpGL } from "../webgl/cleanup";
 import { initalizeGLRenderingContext } from "../webgl/init";
 import { inititalizeGLDependencies } from "../webgl/initialization/dependencies";
@@ -49,6 +50,7 @@ export const initParticles = (
 
   //initialize the canvas reader
   const result = initCanvasReader(rCanvas as HTMLCanvasElement);
+  const result2 = initGroups();
 
   initMouse();
 
