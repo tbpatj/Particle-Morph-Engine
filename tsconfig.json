@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./lib/",
+    "target": "ES6",
+    "sourceMap": true,
+    "allowJs": true,
+    "lib": ["es2017", "dom"],
+    // "types": ["jest"],
+    "typeRoots": ["node_modules/@types"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "node_modules/@types", "src/global.d.ts"],
+  "exclude": [".git", "node_modules"]
+}
