@@ -1,5 +1,5 @@
-import { initalizeGLRenderingContext } from "./webgl/init";
-import { inititalizeGLDependencies } from "./webgl/initialization/dependencies";
+import { initalizeGLRenderingContext } from "../webgl/init";
+import { inititalizeGLDependencies } from "../webgl/initialization/dependencies";
 
 export const initParticles = (
   particleCanvasId: string,

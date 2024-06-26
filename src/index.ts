@@ -1,4 +1,4 @@
-import { initParticles } from "./initParticles";
+import { initParticles } from "./particles/init";
 import { DEFAULT_OPTIONS } from "./options";
 import { ParticleGlobalController } from "./types";
 import { GroupAction, GroupIndividualAction } from "./types/groups";
