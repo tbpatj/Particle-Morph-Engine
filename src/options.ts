@@ -5,16 +5,15 @@ import {
 } from "./types";
 
 export const DEFAULT_RESOLUTION_PERCENT = 50;
-// export const DEFAULT_RESOLUTION_PERCENT = 100;
 export const DEFAULT_PRTCL_CNT = 50000;
 export const DEFAULT_BACKGROUND_PARTICLE_COUNT = 500;
 export const DEFAULT_PRTCL_DST_RNG = 0.5;
-// export const DEFAULT_PRTCL_DST_RNG = 0;
 export const DEFAULT_MAP_PARTICLES_TO_CLOSEST_POINT = false;
 export const DEFAULT_USE_PRECISE_MOUSE_DETECTION = true;
 export const DEFAULT_MOUSE_INTERACTION_FIELD_DISTANCE = 10000;
 export const DEFAULT_MOUSE_INTERACTION_FIELD_INTENSITY = 10;
 export const DEFAULT_MOUSE_INTERACTION_TYPE: MouseInteractionTypes = "drag";
+//currently broken... will fix later
 export const DEFAULT_MOUSE_CLICK_INTERACTION_TYPE: MouseInteractionTypes =
   "orbit";
 export const DEFAULT_MOUSE_CLICK_INTERACTION_FIELD_DISTANCE = 10000;

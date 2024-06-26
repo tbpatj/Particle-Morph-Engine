@@ -130,8 +130,131 @@ particles.addInputGroup({
 
 ```
 
-## Text
+# Using particle actions
 
 ```
+p.groupAction(
+    {
+        type: "dest", // options: "both" | "point" | "dest" | "bothIndividual", change the destination that the particles are trying to go to or change the actual particle point position,
+        xPos: "-10%",
+        yPos: `2%`,
+        mode: "shift" // options: "shift" | "set", shift - shifts it by the xpos and ypos amount, set sets it to that value of xPos and yPos
+    },
+    0 //the index of the particle group
+);
+```
 
+the types of the group actions
+
+```
+export interface GroupAction {
+  type: "dest" | "point" | "both";
+  mode?: "shift" | "set";
+  xPos?: string;
+  yPos?: string;
+  scaleX?: string;
+  scaleY?: string;
+  rot?: number;
+  radius?: number;
+}
+export interface GroupIndividualAction {
+  type: "bothIndividual";
+  pMode?: "shift" | "set";
+  pXPos?: string;
+  pYPos?: string;
+  pScaleX?: string;
+  pScaleY?: string;
+  pRot?: number;
+  dMode?: "shift" | "set";
+  dXPos?: string;
+  dYPos?: string;
+  dScaleX?: string;
+  dScaleY?: string;
+  dRot?: number;
+  radius?: number;
+}
+```
+
+# Overriding a particle group
+
+you can override a particle group and update it to a new image or something else. Be careful when updating particle groups due to the way the particle engine works, you need to make sure you are allocating particles carefully. If you are not careful it can cause some problems. This is a feature that could be worked on in the future is creating better dynamic particle allocation.
+
+```
+const myImage = await particles.loadImageURL(url1);
+const myImage2 = await particles.loadImageURL(url2);
+
+//initialize the particle group to start with
+particles.addInputGroup({
+  group: 0,
+  xPos: "50%",
+  yPos: "50%",
+  inputs: [
+
+    {
+      image: myImage,
+    },
+  ],
+  allocatedParticles: 8000,
+  radius: 3,
+  removeWhite: true,
+});
+//create a timeoout to override the particle group in 4 seconds
+setTimeout(() =>{
+  particles.addInputGroup({
+  group: 0,
+  xPos: "50%",
+  yPos: "50%",
+  inputs: [
+
+    {
+      image: myImage2,
+    },
+  ],
+  allocatedParticles: 8000,
+  radius: 3,
+  removeWhite: true,
+});
+},4000)
+```
+
+# Other Particle Functions
+
+Other functions include deleting the groups and setting the lifetime of the groups
+lifetime - is how much longer the particle has left to live, after the allocated life is gone it will disappear.
+
+```
+    //removing groups
+    deleteAllGroups(false) // boolean passed is optional and tells whether to use the group lifetime or not
+    setGroupLifetime([0,1], 100, 10) // setGroupLifetime: (groupIds: number[], lifetime: number, offset?: number) => {}
+
+    //disable and enabling groups
+    enableGroups([0]); // (groupIds: number[]) => {}
+    disableGroups([0]); // (groupIds: number[]) => {}
+```
+
+# Particle Options
+
+Not all options have been implemented in this version, I had to redo the entire engine in webgl to make it faster and some things were not translated as quickly as others
+
+```
+const options: WrapperOptions = {
+  resolutionPercent: 50,
+  prtcleCnt: 50000,
+  backgroundParticleCount: 500,
+  mapParticlesToClosestPoint: false,
+  prtclDstRng: 0.5,
+  usePreciseMouseDetection: true,
+  mouseInteractionType: "drag",
+  mouseInteractionFieldDistance: 10000,
+  mouseInteractionFieldIntensity: 10,
+  mouseClickInteractionFieldDistance: 10000,
+  mouseClickInteractionFieldIntensity: 0.003,
+  mouseClickInteractionType: "orbit",
+  edgeInteractionType: "teleport",
+  edgeRestitution: 0.8,
+  useParticleQueue: true,
+  particleScrollType: "scrollY",
+  lifetimeOffsetRng: 10,
+  maxGroups: 10,
+};
 ```
