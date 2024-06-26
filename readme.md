@@ -19,7 +19,6 @@ Make sure to have two canvas html elements in the DOM how ever you would create 
 ```
     <canvas style="width:100vw;height:100vh;" id="canvas-particles"></canvas>
     <canvas style="width:100vw;height:100vh;" id="canvas-reader"></canvas>
-
 ```
 
 Call the library init function passing in the particles canvas element and the cavas reader element id's as strings both are required, should run synchronously
@@ -41,6 +40,8 @@ The amount of these particles can be changed before running the .init function b
 
 # How to create particle groups
 
+The basis of the project is that you can create particle groups which can then be interacted with, manipulated, disabling, re-enabling, and what ever you can think up beyond that. Below I will show how you can create a particle group.
+
 ## Basic Example
 
 below is a basic example of setting up a new particle group.
@@ -57,6 +58,8 @@ particles.addInputGroup({
 ```
 
 ## Advanced Example
+
+In this example I load in both an image and text. I also show all the different methods and parameters you can modify when creating a particle group
 
 ```
 //load up an image it needs to be loaded in a special way as by default ctx doesn't like us rendering images from external sites. So be aware that not all images may work
@@ -134,7 +137,11 @@ particles.addInputGroup({
 
 ```
 
-# Using particle actions
+# Using particle group actions
+
+particle group actions can be used to manipulate particle groups realtime. since it uses uniforms to update the groups you should be able to modify them very quickly. Though be aware some actions do take a lot more processing. So it's not recommended to run this every frame, as there could still be some bottlenecking of pushing information from the cpu to the gpu.
+
+You can use these actions to move, shift, set the position of, scale, and rotate the particle groups.
 
 ```
 p.groupAction(
@@ -270,3 +277,4 @@ Since this was orignally a part of my portfolio and I had created a whole engine
 - pull back in some of the old options
 - add back in the fps reporting (very useful for devices that are running something on the graphics card already, like figma, photoshop or some other graphics heavy application,) this enables the program to not attempt to run if its causing too much lag as sometimes that is the case
 - optimize and update the allocation of particles
+- add the ability to create basic shapes. Instead of just text and images, you could do shape: "circle" or something and it would create a circle and render that to the ctx.
