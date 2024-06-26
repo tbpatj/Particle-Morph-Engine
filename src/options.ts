@@ -47,8 +47,4 @@ export const DEFAULT_OPTIONS: WrapperOptions = {
   particleScrollType: DEFAULT_PARTICLE_SCROLL_TYPE,
   lifetimeOffsetRng: DEFAULT_LIFETIME_OFFSET_RNG,
   maxGroups: DEFAULT_MAX_GROUPS,
-  dpi: {
-    current: window.innerWidth < 1000 ? window.devicePixelRatio || 1 : 1,
-    lastUpdate: new Date().getTime(),
-  },
 };

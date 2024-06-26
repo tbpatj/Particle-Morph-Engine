@@ -31,13 +31,6 @@ export type MouseInteractionTypes =
 
 export type ScrollInteractionTypes = "scrollY" | "scrollX" | "scroll" | "none";
 
-export interface DPIOptions {
-  /** actual device pixel ratio value */
-  current: number;
-  /** for optimization sometimes the device pixel ratio is updated automatically. Here is where we store when that last update needed to be pushed */
-  lastUpdate: number;
-}
-
 export interface WrapperOptions {
   /** what percent the wrapper scans an "image" and returns back to be processed to assign particles to */
   resolutionPercent: number;
@@ -73,8 +66,6 @@ export interface WrapperOptions {
   lifetimeOffsetRng: number;
   /** max amount of groups that can be used I have to allocate uniform space for this thats why it's fixed */
   maxGroups: number;
-  /** options to set the device pixel ratio, by default finds the devices default pixel ratio if not sets to 1 */
-  dpi: DPIOptions;
 }
 
 export interface DefaultedWrapperOptions {
@@ -160,12 +151,21 @@ export interface Mouse {
   mouse: MouseCursor;
 }
 
-export interface Animation {
+export interface RenderLoop {
   animFrameCBNum: number;
+  loop: () => void;
 }
 
 export interface ParticleGroupsList {
   pGroups: ParticleGroups;
+}
+
+export interface DPIAndFPS {
+  /** options to set the device pixel ratio, by default finds the devices default pixel ratio if not sets to 1 */
+  dpi: number;
+  lastDPIUpdate: number;
+  fps: number;
+  setDpi: (dpi: number) => void;
 }
 
 export interface WrapperControlFuncs {
@@ -182,4 +182,5 @@ export type ParticleGlobalController = ParticleController &
   ParticleGroupsList &
   ParticleOptions &
   Mouse &
-  Animation;
+  RenderLoop &
+  DPIAndFPS;

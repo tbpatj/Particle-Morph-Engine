@@ -17,9 +17,8 @@ export const initCanvasReader = (
   const Ctx = canvasEl.getContext("2d", { willReadFrequently: true });
   console.log(canvasEl);
   particles.readerCE = canvasEl;
-  particles.readerCE.width = window.innerWidth * particles.options.dpi.current;
-  particles.readerCE.height =
-    window.innerHeight * particles.options.dpi.current;
+  particles.readerCE.width = window.innerWidth * particles.dpi;
+  particles.readerCE.height = window.innerHeight * particles.dpi;
   particles.readerSize.width = canvasEl.width;
   particles.readerSize.height = canvasEl.height;
   //set up the actual ctx on our global object
@@ -47,7 +46,7 @@ export const initCanvasReader = (
             particles.ctx,
             particles.readerSize.width,
             particles.readerSize.height,
-            particles.options.dpi.current
+            particles.dpi
           );
           renderedToCanvas = true;
           //if the user wants an image to be the thing we render
@@ -58,7 +57,7 @@ export const initCanvasReader = (
             particles.ctx,
             particles.readerSize.width,
             particles.readerSize.height,
-            particles.options.dpi.current
+            particles.dpi
           );
           renderedToCanvas = true;
         }
@@ -85,7 +84,7 @@ export const initCanvasReader = (
             image,
             particles.readerSize.width,
             particles.readerSize.height,
-            particles.options.dpi.current,
+            particles.dpi,
             Math.min(
               Math.max(
                 gInput?.resPerc ?? particles.options.resolutionPercent,

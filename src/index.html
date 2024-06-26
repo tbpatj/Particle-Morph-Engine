@@ -7,24 +7,22 @@
   </head>
   </head>
   <body>
-    <canvas id="particle-container"></canvas>
-    <canvas id="background-particle-container"></canvas>
+    <canvas style="width:100vw;height:100vh;" id="particle-container"></canvas>
+    <canvas style="width:100vw;height:100vh;" id="background-particle-container"></canvas>
     <script type="module" src="index.ts"></script>
     <script>
       document.addEventListener("DOMContentLoaded",async () => {
         // Code to be executed after the DOM is loaded
         console.log("initializing")
-        const test = await particles.init("particle-container", "background-particle-container");
-        console.log(test)
-        console.log(particles.addInputGroup)
+        particles.init("particle-container", "background-particle-container");
         if(particles.glReady) particles.start()
         particles.addInputGroup({
                 resPerc: 100,
                 prtclDstRng: 0,
-                xPos: `${50}px`,
-                yPos: `${0 + 500}px`,
+                xPos: `${50}%`,
+                yPos: `${50}%`,
                 inputs: [
-                  { text: "test", color: "#000000", align: "left" },
+                  { text: "test", color: "#000000", align: "center" },
                 ],
                 group: 0,
                 rot: 0,

@@ -24,6 +24,7 @@ globalThis.particles = {
     console.error("Particles not initialized"),
   init: initParticles,
   start: startLoop,
+  loop: () => console.error("Particles not initialized"),
   enabled: false,
   ready: false,
   gl: null,
@@ -35,6 +36,8 @@ globalThis.particles = {
   pGroups: {},
   options: DEFAULT_OPTIONS,
   mouse: initialMouseCursorObject,
+  dpi: window.innerWidth < 1000 ? window.devicePixelRatio || 1 : 1,
+  lastDPIUpdate: new Date().getTime(),
 } as ParticleGlobalController;
 
 console.log(particles);

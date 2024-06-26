@@ -1,8 +1,11 @@
 import { initCanvasReader } from "../canvasReader/init";
+import { initDPIAndFPS } from "../dpiAndFps/init";
 import { initGroups } from "../groups/init";
+import { cleanUpMisc, initMisc } from "../misc/initMisc";
 import { cleanUpGL } from "../webgl/cleanup";
 import { initalizeGLRenderingContext } from "../webgl/init";
 import { inititalizeGLDependencies } from "../webgl/initialization/dependencies";
+import { loop } from "./loop";
 import { cleanUpMouse, initMouse } from "./mouse/mouse";
 
 export const initParticles = (
@@ -33,8 +36,8 @@ export const initParticles = (
     const w = window.innerWidth;
     const h = window.innerHeight;
     //adjust the canvas element with the dpi of the device or current dpi set by the user
-    const cW = w * particles.options.dpi.current;
-    const cH = h * particles.options.dpi.current;
+    const cW = w * particles.dpi;
+    const cH = h * particles.dpi;
     particles.glCE.width = cW;
     particles.glCE.height = cH;
     particles.gl.viewport(0, 0, cW, cH);
@@ -52,7 +55,10 @@ export const initParticles = (
   const result = initCanvasReader(rCanvas as HTMLCanvasElement);
   const result2 = initGroups();
 
+  initDPIAndFPS();
   initMouse();
+  initMisc();
+  particles.loop = loop;
 
   //TODO add the event listeners for all the needed events, such as window resizing, unmounting, mouse, etc.
   window.addEventListener("beforeunload", () => {
@@ -62,6 +68,7 @@ export const initParticles = (
     cancelAnimationFrame(particles.animFrameCBNum);
     cleanUpMouse();
     cleanUpGL(particles.gl, particles.glDeps);
+    cleanUpMisc();
   });
   return true;
 };

@@ -38,7 +38,7 @@ export const loop = () => {
       particles.glCE?.offsetWidth ?? window.innerWidth,
       particles.glCE?.offsetHeight ?? window.innerHeight,
       particles.pGroups,
-      particles.options.dpi.current
+      particles.dpi
     );
   }
 
