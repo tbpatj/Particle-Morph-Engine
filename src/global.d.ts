@@ -1,3 +1,5 @@
+import { ParticleGlobalController } from "./types";
+
 declare global {
-  var particles: GlobalAspire;
+  var particles: ParticleGlobalController;
 }
