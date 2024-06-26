@@ -4,7 +4,8 @@ import {
   EnableGroups,
   SetGroupLifetime,
 } from "./groupController";
-import { GroupAction, GroupIndividualAction } from "./groups";
+import { GroupAction, GroupIndividualAction, ParticleGroups } from "./groups";
+import { MouseCursor } from "./mouse";
 import {
   AddInputGroupOptions,
   GroupInput,
@@ -145,12 +146,29 @@ export interface ParticleOptions {
   options: WrapperOptions;
 }
 
-export interface ParticleInit {
+export interface Mouse {
+  mouse: MouseCursor;
+}
+
+export interface Animation {
+  animFrameCBNum: number;
+}
+
+export interface ParticleGroupsList {
+  pGroups: ParticleGroups;
+}
+
+export interface WrapperControlFuncs {
+  /** start the loop for the particles */
+  start: () => void;
   /** initialize the particles by passing in the id for the actual canvas that renders the particles, and a seperate canvas id for another canvas element (WHICH SHOULD BE HIDDEN) that renders images and other objects to be turned into particles */
   init: (particleCanvasId: string, backgroundCanvasId: string) => void;
 }
 
 export type ParticleGlobalController = ParticleController &
-  ParticleInit &
   GLRendering &
-  ParticleOptions;
+  WrapperControlFuncs &
+  ParticleGroupsList &
+  ParticleOptions &
+  Mouse &
+  Animation;

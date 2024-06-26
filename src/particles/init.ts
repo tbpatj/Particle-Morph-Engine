@@ -1,5 +1,7 @@
+import { cleanUpGL } from "../webgl/cleanup";
 import { initalizeGLRenderingContext } from "../webgl/init";
 import { inititalizeGLDependencies } from "../webgl/initialization/dependencies";
+import { cleanUpMouse, initMouse } from "./mouse/mouse";
 
 export const initParticles = (
   particleCanvasId: string,
@@ -43,5 +45,16 @@ export const initParticles = (
     throw new Error(
       "WebGL2RenderingContext was not able to be created from the particleCanvasId provided."
     );
+
+  initMouse();
+
   //TODO add the event listeners for all the needed events, such as window resizing, unmounting, mouse, etc.
+  window.addEventListener("beforeunload", () => {
+    // Clean up the WebGL instance here
+    // For example, you can call a cleanup function or reset any resources used by WebGL
+    console.log("cleaning");
+    cancelAnimationFrame(particles.animFrameCBNum);
+    cleanUpMouse();
+    cleanUpGL(particles.gl, particles.glDeps);
+  });
 };
