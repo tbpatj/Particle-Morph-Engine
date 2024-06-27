@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "system",
     "moduleResolution": "node",
-    "outDir": "./lib/",
+    "outFile": "./build/index.js",
     "target": "ES6",
-    "sourceMap": true,
+    "sourceMap": false,
     "allowJs": true,
     "lib": ["es2017", "dom"],
-    // "types": ["jest"],
     "typeRoots": ["node_modules/@types"],
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true
   },
