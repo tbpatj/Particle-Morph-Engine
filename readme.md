@@ -8,10 +8,10 @@ https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49
 
 # How to Setup:
 
-Load in the library using the script tag, using either a built .js file or the provided project included, perhaps suppoort for npm later
+Load in the library using the script tag, using either a built .js file or load it from a external source
 
 ```
-<script type="module" src="index.ts"></script>
+<script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@main/build/index.js"></script>
 ```
 
 Make sure to have two canvas html elements in the DOM how ever you would create those. The canvas elements need ids that will help the library access them, as well as they need to be styled using a style tag or a classname where the styling sets the width of the elements css wise, be sure to hide the second canvas element the "canvas reader" as it will only be used rendering things using the ctx context to convert them into particles for the actual webgl, so it will not display any fun or useful things.
@@ -278,3 +278,4 @@ Since this was orignally a part of my portfolio and I had created a whole engine
 - add back in the fps reporting (very useful for devices that are running something on the graphics card already, like figma, photoshop or some other graphics heavy application,) this enables the program to not attempt to run if its causing too much lag as sometimes that is the case
 - optimize and update the allocation of particles
 - add the ability to create basic shapes. Instead of just text and images, you could do shape: "circle" or something and it would create a circle and render that to the ctx.
+- npm package of sorts so you can get the types associated when working on the project

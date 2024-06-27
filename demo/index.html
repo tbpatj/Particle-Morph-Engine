@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Project</title>
+  </head>
+  </head>
+  <body style="margin:0px;">
+    <canvas style="width:100vw;height:100vh;" id="particle-container"></canvas>
+    <canvas style="width:0;height:0vh;" id="background-particle-container"></canvas>
+     <script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@main/build/index.js"></script>
+    <script>
+        // Code to be executed after the DOM is loaded
+        document.addEventListener("DOMContentLoaded",async () => {
+          //set the background particle count to 0, so there are no floating particles
+          particles.options.backgroundParticleCount = 0;
+          //set the max amount of particles to 8000
+          particles.options.prtcleCnt = 10000;
+          //initalize the particles
+          particles.init("particle-container", "background-particle-container");
+          //just make sure we are good to go
+          if(particles.glReady) {particles.start()
+            //load in an image
+            // const myImage = await particles.loadImageURL("");
+
+            particles.addInputGroup({
+              resPerc: 100,
+              group: 0,
+              xPos: "50%",
+              yPos: "50%",
+              inputs: [
+                //add the image to the inputs
+                // {
+                //   image: myImage,
+                // },
+                {
+                  text:"Hello World"
+                }
+              ],
+              prtclDstRng: 0.2,
+              allocatedParticles: 10000,
+              radius: 3,
+              removeWhite: true,
+              action:{
+                type:"both",
+                xPos:"50%",
+                yPos:"50%",
+                mode: "set",
+              }
+            });
+          }
+        });
+       </script>
+  </body>
+</html>
