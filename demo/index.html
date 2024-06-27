@@ -20,7 +20,9 @@
           //initalize the particles
           particles.init("particle-container", "background-particle-container");
           //just make sure we are good to go
-          if(particles.glReady) {particles.start()
+          if(particles.glReady) {
+            //start the render loop
+            particles.start()
             //load in an image
             // const myImage = await particles.loadImageURL("");
 
@@ -38,6 +40,15 @@
                   text:"Hello World"
                 }
               ],
+              clickCallback: () => {
+                //you could make it so if the group is disabled enable it
+                if (!particles.pGroups[0].enabled) {
+                  particles.enableGroups([0]);
+                } else {
+                  //if the group is enabled disable it
+                  particles.disableGroups([0]);
+                }
+              },
               prtclDstRng: 0.2,
               allocatedParticles: 10000,
               radius: 3,
