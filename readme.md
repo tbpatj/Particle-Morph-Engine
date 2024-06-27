@@ -17,22 +17,22 @@ Load in the library using the script tag, using either a built .js file or load 
 Make sure to have two canvas html elements in the DOM how ever you would create those. The canvas elements need ids that will help the library access them, as well as they need to be styled using a style tag or a classname where the styling sets the width of the elements css wise, be sure to hide the second canvas element the "canvas reader" as it will only be used rendering things using the ctx context to convert them into particles for the actual webgl, so it will not display any fun or useful things.
 
 ```
-    <canvas style="width:100vw;height:100vh;" id="canvas-particles"></canvas>
-    <canvas style="width:100vw;height:100vh;" id="canvas-reader"></canvas>
+<canvas style="width:100vw;height:100vh;" id="canvas-particles"></canvas>
+<canvas style="width:100vw;height:100vh;" id="canvas-reader"></canvas>
 ```
 
 Call the library init function passing in the particles canvas element and the cavas reader element id's as strings both are required, should run synchronously
 
 ```
-    particles.init("canvas-particles", "canvas-reader")
+particles.init("canvas-particles", "canvas-reader")
 ```
 
 Check if the library initialization was successful
 
 ```
-    if(particles.ready) {
-        //do what ever you want
-    }
+if(particles.ready) {
+    //do what ever you want
+}
 ```
 
 If you properly ran this code you should see the default floating particles displaying on the screen,
@@ -234,13 +234,13 @@ Other functions include deleting the groups and setting the lifetime of the grou
 lifetime - is how much longer the particle has left to live, after the allocated life is gone it will disappear.
 
 ```
-    //removing groups
-    deleteAllGroups(false) // boolean passed is optional and tells whether to use the group lifetime or not
-    setGroupLifetime([0,1], 100, 10) // setGroupLifetime: (groupIds: number[], lifetime: number, offset?: number) => {}
+//removing groups
+deleteAllGroups(false) // boolean passed is optional and tells whether to use the group lifetime or not
+setGroupLifetime([0,1], 100, 10) // setGroupLifetime: (groupIds: number[], lifetime: number, offset?: number) => {}
 
-    //disable and enabling groups
-    enableGroups([0]); // (groupIds: number[]) => {}
-    disableGroups([0]); // (groupIds: number[]) => {}
+//disable and enabling groups
+enableGroups([0]); // (groupIds: number[]) => {}
+disableGroups([0]); // (groupIds: number[]) => {}
 ```
 
 # Particle Options
