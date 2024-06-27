@@ -281,3 +281,4 @@ Since this was orignally a part of my portfolio and I had created a whole engine
 - optimize and update the allocation of particles
 - add the ability to create basic shapes. Instead of just text and images, you could do shape: "circle" or something and it would create a circle and render that to the ctx.
 - npm package of sorts so you can get the types associated when working on the project
+- Add in support to have the frame be smaller than the window width and height. Currently it sets it's canvas width to default at the window not the parent container
