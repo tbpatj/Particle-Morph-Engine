@@ -2,7 +2,9 @@
 
 A particle library that enables users to create images objects shapes and text out of particles and render them quickly and effiecently using webGL, enabling the usage of hundreds of thousands of particles, perhaps even millions in the web browser. The particles are interactable with the mouse, and can be dragged or interacted with a click.
 
-Make sure you are not running other heavy graphics applications, it will significantly impact the speed. I have gotten this to render up to 500,000 particles with small frame dropping from 60fps on a 2018 macbook. Also sometimes it appears that there still might be some memory leakage or something, even though I clean up the webgl instance sometimes the performance gets slower. Not sure if thats also due to other applictions and their memory leaks. Sometimes you need to restart your computer to get the best performace.
+Make sure you are not running other heavy graphics applications such as figma, photoshop, video-games or other applications that use the graphics card for acceleration, it will significantly impact the speed. I have gotten this to render up to 500,000 particles with small frame dropping from 60fps on a 2018 macbook. Also sometimes it appears that there still might be some memory leakage or something, even though I clean up the webgl instance sometimes the performance gets slower. Not sure if thats also due to other applictions and their memory leaks. Sometimes you need to restart your computer to get the best performace.
+
+[demo](https://luebke.app/files/pme/pme-demo-1.html)
 
 https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49c5-85f1-a4956be87166
 
