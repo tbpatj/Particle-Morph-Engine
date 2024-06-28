@@ -6,14 +6,15 @@
     <title>My Project</title>
   </head>
   </head>
-  <body>
-    <canvas style="width:100vw;height:100vh;" id="particle-container"></canvas>
-    <canvas style="width:100vw;height:100vh;" id="background-particle-container"></canvas>
+  <body style="margin: 0px;">
+    <div style="width: 800px; height: 800px; max-width: 100vw;">
+    <canvas style="width:100%;height:100%;" id="particle-container"></canvas>
+    <canvas style="width:0px;height:0px;" id="background-particle-container"></canvas>
+  </div>
     <script type="module" src="index.ts"></script>
     <script>
       document.addEventListener("DOMContentLoaded",async () => {
         // Code to be executed after the DOM is loaded
-        console.log("test")
         particles.init("particle-container", "background-particle-container");
         if(particles.glReady) particles.start()
         

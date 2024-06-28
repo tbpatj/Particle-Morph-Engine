@@ -32,6 +32,7 @@ globalThis.particles = {
   gl: null,
   glCE: null,
   glReady: false,
+  glSize: { width: window.innerWidth, height: window.innerHeight },
   readerCE: null,
   ctx: null,
   readerSize: { width: 0, height: 0 },

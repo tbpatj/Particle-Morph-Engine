@@ -33,8 +33,16 @@ export const initParticles = (
     particles.gl = gl;
     particles.glCE = pCanvas as HTMLCanvasElement;
     //TODO make it so it doesn't adjust according to the window size, but accordingly to the parent element size
-    const w = window.innerWidth;
-    const h = window.innerHeight;
+
+    const parentElement = particles.glCE.parentElement;
+    particles.glSize.width = window.innerWidth;
+    particles.glSize.height = window.innerHeight;
+    if (parentElement) {
+      particles.glSize.width = parentElement.clientWidth;
+      particles.glSize.height = parentElement.clientHeight;
+    }
+    const w = particles.glSize.width;
+    const h = particles.glSize.height;
     //adjust the canvas element with the dpi of the device or current dpi set by the user
     const cW = w * particles.dpi;
     const cH = h * particles.dpi;

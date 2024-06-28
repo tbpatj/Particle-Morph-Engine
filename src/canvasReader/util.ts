@@ -11,7 +11,7 @@ export const stringToPXPerc = (
   if (string.includes("%"))
     return (
       (parseFloat(string.split("%")[0]) / 100) *
-      (vertical ? window.innerHeight * dpi : window.innerWidth * dpi)
+      (vertical ? particles.glSize.height * dpi : particles.glSize.width * dpi)
     );
   return parseFloat(string);
 };

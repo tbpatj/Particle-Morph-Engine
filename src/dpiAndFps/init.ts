@@ -1,13 +1,18 @@
 export const initDPIAndFPS = () => {
   const setDPI = (dpi: number) => {
+    const parentElement = particles.glCE.parentElement;
+    if (parentElement) {
+      particles.glSize.width = parentElement.clientWidth;
+      particles.glSize.height = parentElement.clientHeight;
+    }
     if (particles.gl && particles.glCE) {
-      particles.glCE.width = window.innerWidth * dpi;
-      particles.glCE.height = window.innerHeight * dpi;
+      particles.glCE.width = particles.glSize.width * dpi;
+      particles.glCE.height = particles.glSize.height * dpi;
       particles.gl.viewport(
         0,
         0,
-        window.innerWidth * dpi,
-        window.innerHeight * dpi
+        particles.glSize.width * dpi,
+        particles.glSize.height * dpi
       );
       if (dpi !== particles.dpi) {
         particles.dpi = dpi;

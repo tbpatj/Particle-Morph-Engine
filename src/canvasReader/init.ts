@@ -15,10 +15,9 @@ export const initCanvasReader = (
 ) => {
   //intialize the ctx context for rendering images and other things to the canvas
   const Ctx = canvasEl.getContext("2d", { willReadFrequently: true });
-  console.log(canvasEl);
   particles.readerCE = canvasEl;
-  particles.readerCE.width = window.innerWidth * particles.dpi;
-  particles.readerCE.height = window.innerHeight * particles.dpi;
+  particles.readerCE.width = particles.glSize.width * particles.dpi;
+  particles.readerCE.height = particles.glSize.height * particles.dpi;
   particles.readerSize.width = canvasEl.width;
   particles.readerSize.height = canvasEl.height;
   //set up the actual ctx on our global object

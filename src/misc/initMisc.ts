@@ -1,17 +1,23 @@
 const adjustSize = () => {
+  //TODO adjust the particles.glSize.width and particles.glSize.height to be the new size of the canvas by using the parent element
+  const parentElement = particles.glCE.parentElement;
+  if (parentElement) {
+    particles.glSize.width = parentElement.clientWidth;
+    particles.glSize.height = parentElement.clientHeight;
+  }
   if (particles.gl && particles.glCE) {
-    particles.glCE.width = window.innerWidth * particles.dpi;
-    particles.glCE.height = window.innerHeight * particles.dpi;
+    particles.glCE.width = particles.glSize.width * particles.dpi;
+    particles.glCE.height = particles.glSize.height * particles.dpi;
     particles.gl.viewport(
       0,
       0,
-      window.innerWidth * particles.dpi,
-      window.innerHeight * particles.dpi
+      particles.glSize.width * particles.dpi,
+      particles.glSize.height * particles.dpi
     );
   }
   if (particles.ctx && particles.readerCE) {
-    particles.readerCE.width = window.innerWidth * particles.dpi;
-    particles.readerCE.height = window.innerHeight * particles.dpi;
+    particles.readerCE.width = particles.glSize.width * particles.dpi;
+    particles.readerCE.height = particles.glSize.height * particles.dpi;
     particles.readerSize.width = particles.readerCE.width;
     particles.readerSize.height = particles.readerCE.height;
   }

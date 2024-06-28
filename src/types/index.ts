@@ -134,6 +134,8 @@ export interface GLRendering {
   glDeps: GLDeps | null;
   /** lets the project know when the gl context has been intialized */
   glReady: boolean;
+  /** size of the gl window */
+  glSize: { width: number; height: number };
 }
 
 export interface CanvasReader {

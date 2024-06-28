@@ -35,8 +35,8 @@ export const loop = () => {
       particles.glDeps,
       particles.options,
       particles.mouse,
-      particles.glCE?.offsetWidth ?? window.innerWidth,
-      particles.glCE?.offsetHeight ?? window.innerHeight,
+      particles.glCE?.offsetWidth ?? particles.glSize.width,
+      particles.glCE?.offsetHeight ?? particles.glSize.height,
       particles.pGroups,
       particles.dpi
     );

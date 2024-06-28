@@ -70,12 +70,12 @@ export const initGroups = () => {
       const { points } = pointData;
       const centerX = convertStringValue(
         "50%",
-        (particles.glCE?.width ?? window.innerWidth * particles.dpi) /
+        (particles.glCE?.width ?? particles.glSize.width * particles.dpi) /
           particles.dpi
       );
       const centerY = convertStringValue(
         "50%",
-        (particles.glCE?.height ?? window.innerHeight * particles.dpi) /
+        (particles.glCE?.height ?? particles.glSize.height * particles.dpi) /
           particles.dpi
       );
       const amountOfParticles = gInput?.allocatedParticles ?? 1000;
