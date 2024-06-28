@@ -198,7 +198,7 @@ const $fdf494bc63ad927e$export$247e7c31c0385b84 = (string, vertical, dpi)=>{
     string.trim();
     if (string.includes("px")) return parseFloat(string.split("px")[0]) * dpi;
     //return percentage
-    if (string.includes("%")) return parseFloat(string.split("%")[0]) / 100 * (vertical ? window.innerHeight * dpi : window.innerWidth * dpi);
+    if (string.includes("%")) return parseFloat(string.split("%")[0]) / 100 * (vertical ? particles.glSize.height * dpi : particles.glSize.width * dpi);
     return parseFloat(string);
 };
 const $fdf494bc63ad927e$export$9e98694894af2b6c = (string, vertical, dpi)=>{
@@ -451,10 +451,9 @@ const $9d8afc01b3046417$export$80c6a6d5389972de = (canvasEl)=>{
     const Ctx = canvasEl.getContext("2d", {
         willReadFrequently: true
     });
-    console.log(canvasEl);
     particles.readerCE = canvasEl;
-    particles.readerCE.width = window.innerWidth * particles.dpi;
-    particles.readerCE.height = window.innerHeight * particles.dpi;
+    particles.readerCE.width = particles.glSize.width * particles.dpi;
+    particles.readerCE.height = particles.glSize.height * particles.dpi;
     particles.readerSize.width = canvasEl.width;
     particles.readerSize.height = canvasEl.height;
     //set up the actual ctx on our global object
@@ -506,10 +505,15 @@ const $9d8afc01b3046417$export$80c6a6d5389972de = (canvasEl)=>{
 
 const $387d0f7e7e285f95$export$ae13f218d77f4aa5 = ()=>{
     const setDPI = (dpi)=>{
+        const parentElement = particles.glCE.parentElement;
+        if (parentElement) {
+            particles.glSize.width = parentElement.clientWidth;
+            particles.glSize.height = parentElement.clientHeight;
+        }
         if (particles.gl && particles.glCE) {
-            particles.glCE.width = window.innerWidth * dpi;
-            particles.glCE.height = window.innerHeight * dpi;
-            particles.gl.viewport(0, 0, window.innerWidth * dpi, window.innerHeight * dpi);
+            particles.glCE.width = particles.glSize.width * dpi;
+            particles.glCE.height = particles.glSize.height * dpi;
+            particles.gl.viewport(0, 0, particles.glSize.width * dpi, particles.glSize.height * dpi);
             if (dpi !== particles.dpi) {
                 particles.dpi = dpi;
                 particles.lastDPIUpdate = new Date().getTime();
@@ -705,8 +709,8 @@ const $97d1bb167d3a10d8$export$98a5a3f45f7b7cf2 = ()=>{
     const addFromPoints = (pointData, gInput)=>{
         if (particles.gl && particles.glDeps && particles.pGroups) {
             const { points: points } = pointData;
-            const centerX = (0, $50aeaa6f03058fc7$export$79681a703695403c)("50%", (particles.glCE?.width ?? window.innerWidth * particles.dpi) / particles.dpi);
-            const centerY = (0, $50aeaa6f03058fc7$export$79681a703695403c)("50%", (particles.glCE?.height ?? window.innerHeight * particles.dpi) / particles.dpi);
+            const centerX = (0, $50aeaa6f03058fc7$export$79681a703695403c)("50%", (particles.glCE?.width ?? particles.glSize.width * particles.dpi) / particles.dpi);
+            const centerY = (0, $50aeaa6f03058fc7$export$79681a703695403c)("50%", (particles.glCE?.height ?? particles.glSize.height * particles.dpi) / particles.dpi);
             const amountOfParticles = gInput?.allocatedParticles ?? 1000;
             const group = gInput.group;
             //find an unassigned group
@@ -794,14 +798,20 @@ const $97d1bb167d3a10d8$export$98a5a3f45f7b7cf2 = ()=>{
 
 
 const $a133016631cbb846$var$adjustSize = ()=>{
+    //TODO adjust the particles.glSize.width and particles.glSize.height to be the new size of the canvas by using the parent element
+    const parentElement = particles.glCE.parentElement;
+    if (parentElement) {
+        particles.glSize.width = parentElement.clientWidth;
+        particles.glSize.height = parentElement.clientHeight;
+    }
     if (particles.gl && particles.glCE) {
-        particles.glCE.width = window.innerWidth * particles.dpi;
-        particles.glCE.height = window.innerHeight * particles.dpi;
-        particles.gl.viewport(0, 0, window.innerWidth * particles.dpi, window.innerHeight * particles.dpi);
+        particles.glCE.width = particles.glSize.width * particles.dpi;
+        particles.glCE.height = particles.glSize.height * particles.dpi;
+        particles.gl.viewport(0, 0, particles.glSize.width * particles.dpi, particles.glSize.height * particles.dpi);
     }
     if (particles.ctx && particles.readerCE) {
-        particles.readerCE.width = window.innerWidth * particles.dpi;
-        particles.readerCE.height = window.innerHeight * particles.dpi;
+        particles.readerCE.width = particles.glSize.width * particles.dpi;
+        particles.readerCE.height = particles.glSize.height * particles.dpi;
         particles.readerSize.width = particles.readerCE.width;
         particles.readerSize.height = particles.readerCE.height;
     }
@@ -1825,7 +1835,7 @@ const $52308254850f696a$export$f9ef67375ddc185 = ()=>{
     //   }
     // }
     //render and update here
-    if (particles.gl && particles.glDeps) (0, $04c2bc212be41f33$export$2c7c73aa854b0614)(particles.gl, particles.glDeps, particles.options, particles.mouse, particles.glCE?.offsetWidth ?? window.innerWidth, particles.glCE?.offsetHeight ?? window.innerHeight, particles.pGroups, particles.dpi);
+    if (particles.gl && particles.glDeps) (0, $04c2bc212be41f33$export$2c7c73aa854b0614)(particles.gl, particles.glDeps, particles.options, particles.mouse, particles.glCE?.offsetWidth ?? particles.glSize.width, particles.glCE?.offsetHeight ?? particles.glSize.height, particles.pGroups, particles.dpi);
     particles.mouse.scrollDY = 0;
     // updateFPS();
     (0, $7d2803555b42fd55$export$31401a4d76061686)(particles.mouse);
@@ -1919,20 +1929,36 @@ const $361f0cbb3fe966eb$export$f41068b587f3c406 = ()=>{
 };
 
 
-const $f5cebd077fe4183a$export$dfb9fdde960d9663 = (particleCanvasId, backgroundCanvasId)=>{
+const $f5cebd077fe4183a$export$dfb9fdde960d9663 = (particleContainer, iOptions)=>{
+    particles.options = {
+        ...particles.options,
+        ...iOptions
+    };
     //particle renderer
-    const pCanvas = document.getElementById(particleCanvasId);
-    //background renderer used for rendering images and other elements that are turned into particles
-    const rCanvas = document.getElementById(backgroundCanvasId);
-    if (pCanvas === null || rCanvas === null) throw new Error(`One or both canvas elements particleCanvasId: ${particleCanvasId}, and backgroundCanvasId: ${backgroundCanvasId}, not found.`);
-    if (pCanvas.nodeName !== "CANVAS" || rCanvas.nodeName !== "CANVAS") throw new Error(`One or both canvas elements found are not of type 'canvas'. ${particleCanvasId}: ${pCanvas.nodeName}, ${backgroundCanvasId}: ${rCanvas.nodeName}`);
+    const pCElem = document.getElementById(particleContainer);
+    if (particleContainer === null) throw new Error(`The particle container element with id: ${particleContainer} was not found.`);
+    const pCanvas = document.createElement("canvas");
+    pCanvas.style.width = "100%";
+    pCanvas.style.height = "100%";
+    pCElem.appendChild(pCanvas);
+    const rCanvas = document.createElement("canvas");
+    rCanvas.style.width = "0px";
+    rCanvas.style.height = "0px";
+    pCElem.appendChild(rCanvas);
     const gl = (0, $1b7019f4d50ff473$export$d7038d569a79a421)(pCanvas);
     if (gl) {
         particles.gl = gl;
         particles.glCE = pCanvas;
         //TODO make it so it doesn't adjust according to the window size, but accordingly to the parent element size
-        const w = window.innerWidth;
-        const h = window.innerHeight;
+        const parentElement = particles.glCE.parentElement;
+        particles.glSize.width = window.innerWidth;
+        particles.glSize.height = window.innerHeight;
+        if (parentElement) {
+            particles.glSize.width = parentElement.clientWidth;
+            particles.glSize.height = parentElement.clientHeight;
+        }
+        const w = particles.glSize.width;
+        const h = particles.glSize.height;
         //adjust the canvas element with the dpi of the device or current dpi set by the user
         const cW = w * particles.dpi;
         const cH = h * particles.dpi;
@@ -2067,6 +2093,10 @@ globalThis.particles = {
     gl: null,
     glCE: null,
     glReady: false,
+    glSize: {
+        width: window.innerWidth,
+        height: window.innerHeight
+    },
     readerCE: null,
     ctx: null,
     readerSize: {
