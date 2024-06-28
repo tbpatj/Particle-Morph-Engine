@@ -4,6 +4,8 @@ A particle library that enables users to create images objects shapes and text o
 
 Make sure you are not running other heavy graphics applications such as figma, photoshop, video-games or other applications that use the graphics card for acceleration, it will significantly impact the speed. I have gotten this to render up to 500,000 particles with small frame dropping from 60fps on a 2018 macbook. Also sometimes it appears that there still might be some memory leakage or something, even though I clean up the webgl instance sometimes the performance gets slower. Not sure if thats also due to other applictions and their memory leaks. Sometimes you need to restart your computer to get the best performace.
 
+[demo](https://tbpatj.github.io/Particle-Morph-Engine/demo/)
+
 https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49c5-85f1-a4956be87166
 
 # How to Setup:
@@ -11,7 +13,7 @@ https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49
 Load in the library using the script tag, using either a built .js file or load it from a external source
 
 ```
-<script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@main/build/index.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@latest/build/index.js"></script>
 ```
 
 Make sure to create a div element with an id to contain the particles
