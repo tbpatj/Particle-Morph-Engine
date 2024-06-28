@@ -4,8 +4,6 @@ A particle library that enables users to create images objects shapes and text o
 
 Make sure you are not running other heavy graphics applications such as figma, photoshop, video-games or other applications that use the graphics card for acceleration, it will significantly impact the speed. I have gotten this to render up to 500,000 particles with small frame dropping from 60fps on a 2018 macbook. Also sometimes it appears that there still might be some memory leakage or something, even though I clean up the webgl instance sometimes the performance gets slower. Not sure if thats also due to other applictions and their memory leaks. Sometimes you need to restart your computer to get the best performace.
 
-[demo](https://luebke.app/files/pme/pme-demo-1.html)
-
 https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49c5-85f1-a4956be87166
 
 # How to Setup:
@@ -16,17 +14,16 @@ Load in the library using the script tag, using either a built .js file or load 
 <script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@main/build/index.js"></script>
 ```
 
-Make sure to have two canvas html elements in the DOM how ever you would create those. The canvas elements need ids that will help the library access them, as well as they need to be styled using a style tag or a classname where the styling sets the width of the elements css wise, be sure to hide the second canvas element the "canvas reader" as it will only be used rendering things using the ctx context to convert them into particles for the actual webgl, so it will not display any fun or useful things.
+Make sure to create a div element with an id to contain the particles
 
 ```
-<canvas style="width:100vw;height:100vh;" id="canvas-particles"></canvas>
-<canvas style="width:100vw;height:100vh;" id="canvas-reader"></canvas>
+<div id="particle-container">
 ```
 
-Call the library init function passing in the particles canvas element and the cavas reader element id's as strings both are required, should run synchronously
+Call the library init function passing in the particle container id as a string, the command will run synchronously and throw errors if something is wrong. The second parameter you pass can override default values for the particle engine, such as how many particles are in the background
 
 ```
-particles.init("canvas-particles", "canvas-reader")
+particles.init("particle-container")
 ```
 
 Check if the library initialization was successful
@@ -281,4 +278,3 @@ Since this was orignally a part of my portfolio and I had created a whole engine
 - optimize and update the allocation of particles
 - add the ability to create basic shapes. Instead of just text and images, you could do shape: "circle" or something and it would create a circle and render that to the ctx.
 - npm package of sorts so you can get the types associated when working on the project
-- Add in support to have the frame be smaller than the window width and height. Currently it sets it's canvas width to default at the window not the parent container

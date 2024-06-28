@@ -7,18 +7,13 @@
   </head>
   </head>
   <body style="margin:0px;">
-    <canvas style="width:100vw;height:100vh;" id="particle-container"></canvas>
-    <canvas style="width:0;height:0vh;" id="background-particle-container"></canvas>
+    <div id="particle-container"></div>
      <script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@main/build/index.js"></script>
     <script>
         // Code to be executed after the DOM is loaded
         document.addEventListener("DOMContentLoaded",async () => {
-          //set the background particle count to 0, so there are no floating particles
-          particles.options.backgroundParticleCount = 0;
-          //set the max amount of particles to 8000
-          particles.options.prtcleCnt = 10000;
           //initalize the particles
-          particles.init("particle-container", "background-particle-container");
+          particles.init("particle-container", {prtcleCnt: 10000, backgroundParticleCount: 0});
           //just make sure we are good to go
           if(particles.glReady) {
             //start the render loop

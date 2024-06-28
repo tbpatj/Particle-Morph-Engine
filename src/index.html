@@ -7,15 +7,13 @@
   </head>
   </head>
   <body style="margin: 0px;">
-    <div style="width: 800px; height: 800px; max-width: 100vw;">
-    <canvas style="width:100%;height:100%;" id="particle-container"></canvas>
-    <canvas style="width:0px;height:0px;" id="background-particle-container"></canvas>
+    <div id="particle-container">
   </div>
     <script type="module" src="index.ts"></script>
     <script>
       document.addEventListener("DOMContentLoaded",async () => {
         // Code to be executed after the DOM is loaded
-        particles.init("particle-container", "background-particle-container");
+        particles.init("particle-container");
         if(particles.glReady) particles.start()
         
         //load in an image

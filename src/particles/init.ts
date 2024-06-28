@@ -2,6 +2,7 @@ import { initCanvasReader } from "../canvasReader/init";
 import { initDPIAndFPS } from "../dpiAndFps/init";
 import { initGroups } from "../groups/init";
 import { cleanUpMisc, initMisc } from "../misc/initMisc";
+import { OptionalWrapperOptions } from "../types";
 import { cleanUpGL } from "../webgl/cleanup";
 import { initalizeGLRenderingContext } from "../webgl/init";
 import { inititalizeGLDependencies } from "../webgl/initialization/dependencies";
@@ -9,24 +10,25 @@ import { loop } from "./loop";
 import { cleanUpMouse, initMouse } from "./mouse/mouse";
 
 export const initParticles = (
-  particleCanvasId: string,
-  backgroundCanvasId: string
+  particleContainer: string,
+  iOptions?: OptionalWrapperOptions
 ) => {
+  particles.options = { ...particles.options, ...iOptions };
   //particle renderer
-  const pCanvas = document.getElementById(
-    particleCanvasId
-  ) as HTMLCanvasElement;
+  const pCElem = document.getElementById(particleContainer);
+  if (particleContainer === null)
+    throw new Error(
+      `The particle container element with id: ${particleContainer} was not found.`
+    );
+  const pCanvas = document.createElement("canvas");
+  pCanvas.style.width = "100%";
+  pCanvas.style.height = "100%";
+  pCElem.appendChild(pCanvas);
 
-  //background renderer used for rendering images and other elements that are turned into particles
-  const rCanvas = document.getElementById(backgroundCanvasId);
-  if (pCanvas === null || rCanvas === null)
-    throw new Error(
-      `One or both canvas elements particleCanvasId: ${particleCanvasId}, and backgroundCanvasId: ${backgroundCanvasId}, not found.`
-    );
-  if (pCanvas.nodeName !== "CANVAS" || rCanvas.nodeName !== "CANVAS")
-    throw new Error(
-      `One or both canvas elements found are not of type 'canvas'. ${particleCanvasId}: ${pCanvas.nodeName}, ${backgroundCanvasId}: ${rCanvas.nodeName}`
-    );
+  const rCanvas = document.createElement("canvas");
+  rCanvas.style.width = "0px";
+  rCanvas.style.height = "0px";
+  pCElem.appendChild(rCanvas);
 
   const gl = initalizeGLRenderingContext(pCanvas as HTMLCanvasElement);
   if (gl) {
