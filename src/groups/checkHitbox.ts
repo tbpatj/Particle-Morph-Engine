@@ -4,6 +4,7 @@ import m3 from "../utils/mat3";
 
 export const checkHitbox = (
   matrix: number[],
+  key: string,
   group: ParticleGroup,
   mouse: MouseCursor,
   xPos: number,
@@ -21,9 +22,21 @@ export const checkHitbox = (
     Math.abs(boundX) < (group.hitbox?.width ?? 0) / 2 &&
     Math.abs(boundY) < (group.hitbox?.height ?? 0) / 2
   ) {
+    group.lastMouseEvent = undefined;
+    const event = {
+      coords: { x: boundX, y: boundY },
+      group: { ...group },
+      mouse: structuredClone(mouse),
+      groupKey: key,
+    };
     if (mouse.leftClick) {
-      group?.clickCallback?.({ x: boundX, y: boundY });
+      group.held = true;
+      group?.clickCallback?.(event);
+    } else if (mouse.leftMouseUp) {
+      group.held = false;
+      group?.clickUpCallback?.(event);
     }
+    group.lastMouseEvent = event;
     return true;
   }
   return false;

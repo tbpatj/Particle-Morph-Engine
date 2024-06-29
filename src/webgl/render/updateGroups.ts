@@ -44,9 +44,50 @@ export const updateGroups = (
     uniformActions[Number(groupIndx)] = group.enabled ? uniformAction : -2;
     usedParticles = Math.max(usedParticles, group.endIndx);
     groupRads[Number(groupIndx)] = radius;
-
+    if (group?.onDrag && group.dragging) {
+      group.onDrag({
+        ...group.lastMouseEvent,
+        mouse: structuredClone(mouse),
+        groupKey: key,
+        group: { ...group },
+      });
+    }
     //check if the group was clicked on
-    if (group.clickCallback) {
+    if (
+      group?.clickCallback ||
+      group?.clickUpCallback ||
+      group?.onDragStart ||
+      group?.onDragEnd
+    ) {
+      if (!mouse.leftMouseDown && group.held) {
+        group.held = false;
+        if (group.dragging && group?.onDragEnd) {
+          group.onDragEnd({
+            ...group.lastMouseEvent,
+            mouse: structuredClone(mouse),
+            groupKey: key,
+            group: { ...group },
+          });
+        }
+        group.dragging = false;
+        group.lastMouseEvent = undefined;
+      }
+      //check to see if we are now dragging not just holding the group
+      if (group.held && group?.lastMouseEvent && group.dragging === false) {
+        const disSqrd =
+          (mouse.x - group.lastMouseEvent.mouse.x) ** 2 +
+          (mouse.y - group.lastMouseEvent.mouse.y) ** 2;
+        //if the cursor was moved away from the initial click position then lets start dragging
+        if (disSqrd > 10) {
+          group.dragging = true;
+          if (group?.onDragStart)
+            group.onDragStart({
+              ...group.lastMouseEvent,
+              groupKey: key,
+              group: { ...group },
+            });
+        }
+      }
       //do a reverse translation for the mouse cursor
       let translationMatrix2 = m3.translation(xPos, yPos);
       const rotationMatrix2 = m3.rotation(-rot);
@@ -54,7 +95,7 @@ export const updateGroups = (
       // Multiply the matrices.
       let matrix2 = m3.multiply(translationMatrix2, rotationMatrix2);
       matrix2 = m3.multiply(matrix2, scaleMatrix2);
-      if (checkHitbox(matrix2, group, mouse, xPos, yPos)) {
+      if (checkHitbox(matrix2, key, group, mouse, xPos, yPos)) {
         cursorOverClickable = true;
       }
     }

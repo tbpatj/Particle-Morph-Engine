@@ -48,9 +48,17 @@ const handleScrolling = (e: any) => {
 
 const handleMouseUp = (e: MouseEvent) => {
   if (e.button === 0) {
-    particles.mouse = { ...particles.mouse, leftMouseDown: false };
+    particles.mouse = {
+      ...particles.mouse,
+      leftMouseDown: false,
+      leftMouseUp: true,
+    };
   } else if (e.button === 2) {
-    particles.mouse = { ...particles.mouse, rightMouseDown: false };
+    particles.mouse = {
+      ...particles.mouse,
+      rightMouseDown: false,
+      rightMouseUp: true,
+    };
   }
 };
 const handleMouseDown = (e: MouseEvent) => {

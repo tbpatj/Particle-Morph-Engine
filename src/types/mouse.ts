@@ -16,9 +16,12 @@ export interface MouseCursor {
   scrollDX: number;
   scrollDY: number;
   scrollPosY: number;
+  mouseDrag: boolean;
   leftMouseDown: boolean;
+  leftMouseUp: boolean;
   leftClick: boolean;
   rightMouseDown: boolean;
+  rightMouseUp: boolean;
   rightClick: boolean;
   lastRecordedTime: Date;
   tx: number;

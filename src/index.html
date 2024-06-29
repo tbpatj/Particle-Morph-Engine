@@ -35,6 +35,23 @@
           allocatedParticles: 8000,
           radius: 3,
           removeWhite: true,
+          clickCallback: (e) => {
+            console.log(e)
+            
+          },
+          onDrag: (e) => {
+            particles.groupAction({type:"dest",
+            xPos: `${e.mouse.x}px`,
+            yPos:`${e.mouse.y}px`,
+            rot: (e.group.rot * 180) / Math.PI + 10,
+            mode: "set",},Number(e.groupKey))
+          },
+          onDragStart: (e) => {
+            console.log("dragging",e)
+          },
+          onDragEnd:(e) => {
+            console.log("drag end")
+          },
           action:{
             type:"both",
             xPos:"50%",

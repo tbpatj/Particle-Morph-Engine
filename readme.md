@@ -8,6 +8,12 @@ Make sure you are not running other heavy graphics applications such as figma, p
 
 https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49c5-85f1-a4956be87166
 
+# Additional
+
+node and browser versions need to be >= 17. project uses calls such as
+
+- structuredClone
+
 # How to Setup:
 
 Load in the library using the script tag, using either a built .js file or load it from a external source
