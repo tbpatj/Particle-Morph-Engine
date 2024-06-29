@@ -34,7 +34,7 @@ export type ScrollInteractionTypes = "scrollY" | "scrollX" | "scroll" | "none";
 export interface WrapperOptions extends OptionalWrapperOptions {
   resolutionPercent: number;
   mapParticlesToClosestPoint: boolean;
-  prtcleCnt: number;
+  particleCount: number;
   backgroundParticleCount: number;
   prtclDstRng: number;
   usePreciseMouseDetection: boolean;
@@ -58,7 +58,7 @@ export interface OptionalWrapperOptions {
   /** when a new "image" is allocated, the particles will choose for the most part to go to the closest destination. */
   mapParticlesToClosestPoint?: boolean;
   /** amount of particles spawned in at initialization */
-  prtcleCnt?: number;
+  particleCount?: number;
   /** The amount of background particles just passively being updated and actively drawn at one time */
   backgroundParticleCount?: number;
   /** creates an offset from the original pxl point that a particle is destined to go to*/
@@ -92,7 +92,7 @@ export interface OptionalWrapperOptions {
 export interface DefaultedWrapperOptions {
   resolutionPercent: number;
   mapParticlesToClosestPoint: boolean;
-  prtcleCnt: number;
+  particleCount: number;
   backgroundParticleCount: number;
   prtclDstRng: number;
   usePreciseMouseDetection: boolean;

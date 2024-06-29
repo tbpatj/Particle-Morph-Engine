@@ -13,7 +13,7 @@
     <script>
       document.addEventListener("DOMContentLoaded",async () => {
         // Code to be executed after the DOM is loaded
-        particles.init("particle-container");
+        particles.init("particle-container",{particleCount: 50000});
         if(particles.glReady) particles.start()
         
         //load in an image
@@ -58,6 +58,41 @@
             yPos:"50%",
             mode: "set",
           }
+        });
+
+        particles.addInputGroup({
+          group: 1,
+          xPos: "50%",
+          yPos: "100px",
+          inputs: [
+            //add the image to the inputs
+            // {
+            //   image: myImage,
+            // },
+            {
+              text:"Test2"
+            }
+          ],
+          allocatedParticles: 8000,
+          radius: 3,
+          removeWhite: true,
+          clickCallback: (e) => {
+            console.log(e)
+            
+          },
+          onDrag: (e) => {
+            particles.groupAction({type:"dest",
+            xPos: `${e.mouse.x}px`,
+            yPos:`${e.mouse.y}px`,
+            rot: (e.group.rot * 180) / Math.PI + 10,
+            mode: "set",},Number(e.groupKey))
+          },
+          onDragStart: (e) => {
+            console.log("dragging",e)
+          },
+          onDragEnd:(e) => {
+            console.log("drag end")
+          },
         });
 
       });

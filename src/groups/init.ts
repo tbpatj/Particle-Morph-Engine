@@ -90,7 +90,7 @@ export const initGroups = () => {
       const range = getAvailableParticleRange(
         groups,
         amountOfParticles,
-        particles.options.prtcleCnt,
+        particles.options.particleCount,
         group,
         particles.options
       );

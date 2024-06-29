@@ -43,7 +43,7 @@ if(particles.ready) {
 ```
 
 If you properly ran this code you should see the default floating particles displaying on the screen,
-The amount of these particles can be changed before running the .init function by changing particles.options.backgroundParticleCount, which also has to be equal to or less than particles.options.prtcleCnt
+The amount of these particles can be changed before running the .init function by changing particles.options.backgroundParticleCount, which also has to be equal to or less than particles.options.particleCount
 
 # How to create particle groups
 
@@ -257,7 +257,7 @@ Not all options have been implemented in this version, I had to redo the entire 
 ```
 const options: WrapperOptions = {
   resolutionPercent: 50,
-  prtcleCnt: 50000,
+  particleCount: 50000,
   backgroundParticleCount: 500,
   mapParticlesToClosestPoint: false,
   prtclDstRng: 0.5,
