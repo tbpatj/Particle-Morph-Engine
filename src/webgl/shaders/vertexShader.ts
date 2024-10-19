@@ -23,6 +23,7 @@ export const getVertexShader = (options: DefaultedWrapperOptions) => {
   uniform vec4 mpc; //  mousePosChange   - x=mousePos,y=mousePosY, z=mouseDX, w=mouseDY
   uniform vec4 md; //   mouseData        - x=lastMousePos, y=lastMousePosY,z = normalizedX,w = normalizedY
   uniform vec4 md2;//   mouseData2       - x=mouseMag, y = mouseMagSqrd, z=mouseDown
+  uniform vec4 additional_opts;//   mouseData2       - x=click_interaction_type, y = edgeInteractionType
   uniform vec2 scroll;
   uniform vec4 interaction_props; // mouse interaction props  - x=interactionDis, y=interactionIntensity
   uniform float u_matrices[${maxGroups * 9}];
@@ -101,45 +102,69 @@ export const getVertexShader = (options: DefaultedWrapperOptions) => {
     } else if(md2.z == 1.0){
       // vec2 mToP = vec2(offset_vel.x - md.x, offset_vel.y - md.y);
       // dis = dot(mToP, mToP);
-        //get the vector from the last mouse pos to the current particle position
-        vec2 mToP = vec2(offset_vel.x - md.x, offset_vel.y - md.y);
+      //get the vector from the last mouse pos to the current particle position
+      vec2 mToP = vec2(offset_vel.x - md.x, offset_vel.y - md.y);
 
-        //take the dot product of the mouse velocity vector and the vector from the last mouse pos to the current particle position
-        float projMag = (mpc.z * mToP.x + mpc.w * mToP.y) / md2.x;
-        //make sure that the projected point is within the bounds of the mouse vector
-        projMag = clamp(projMag,0.0,md2.x);
+      //take the dot product of the mouse velocity vector and the vector from the last mouse pos to the current particle position
+      float projMag = (mpc.z * mToP.x + mpc.w * mToP.y) / md2.x;
+      //make sure that the projected point is within the bounds of the mouse vector
+      projMag = clamp(projMag,0.0,md2.x);
 
-        //get the new closest point by completing the projection then offseting the vector into the world space.
-        closestPoint = vec2(md.z * projMag + md.x,md.w * projMag + md.y);
-        p2pos = vec2(closestPoint.x - offset_vel.x, closestPoint.y - offset_vel.y);
-        dis = dot(p2pos, p2pos);
+      //get the new closest point by completing the projection then offseting the vector into the world space.
+      closestPoint = vec2(md.z * projMag + md.x,md.w * projMag + md.y);
+      p2pos = vec2(closestPoint.x - offset_vel.x, closestPoint.y - offset_vel.y);
+      dis = dot(p2pos, p2pos);
 
       if (dis < interaction_props.z) {
-        new_vel.x += mToP.x * (1.0 - dis / interaction_props.z) * interaction_props.w;
-        new_vel.y += mToP.y * (1.0 - dis / interaction_props.z) * interaction_props.w;
+        if(additional_opts.x == 0.0){
+          new_vel.x += mToP.x * (1.0 - dis / interaction_props.z) * interaction_props.w;
+          new_vel.y += mToP.y * (1.0 - dis / interaction_props.z) * interaction_props.w;
+        } else {
+          new_vel.x -= (mToP.x) / max(dis,1.0) * interaction_props.w;
+          new_vel.y -= (mToP.y) / max(dis,1.0) * interaction_props.w;
+        }
       }
     }
 // ---------------------- EDGE DETECTION ----------------------
-  if(dest.z < 0.0){
-    if(offset_vel.x < 0.0 - (radius * 2.0)) {
-      new_pos.x = u_resolution.x + radius * 4.0 + new_pos.x;
-      float rand = random(vec2(gl_InstanceID,u_time));
-      new_pos.y = clamp(rand * u_resolution.y,0.0,u_resolution.y);
+  if(additional_opts.y == 0.0){
+   if(dest.z < 0.0){
+      if(offset_vel.x < 0.0 - (radius * 2.0)) {
+        new_pos.x = u_resolution.x + radius * 4.0 + new_pos.x;
+        float rand = random(vec2(gl_InstanceID,u_time));
+        new_pos.y = clamp(rand * u_resolution.y,0.0,u_resolution.y);
+      }
+      if(offset_vel.x > u_resolution.x + radius * 2.0 ) {
+        new_pos.x = new_pos.x - (u_resolution.x + radius * 4.0);
+        float rand = random(vec2(gl_InstanceID,u_time));
+        new_pos.y = clamp(rand * u_resolution.y,0.0,u_resolution.y);
+      }
+      if(offset_vel.y > u_resolution.y + radius * 2.0 ) {
+        new_pos.y = new_pos.y - (u_resolution.y + radius * 4.0);
+        float rand = random(vec2(gl_InstanceID,u_time));
+        new_pos.x = clamp(rand * u_resolution.x,0.0,u_resolution.x);
+      }
+      if(offset_vel.y < 0.0 - (radius * 2.0)) {
+        new_pos.y = new_pos.y + (u_resolution.y + radius * 4.0);
+        float rand = random(vec2(gl_InstanceID,u_time));
+        new_pos.x = clamp(rand * u_resolution.x,0.0,u_resolution.x);
+      }
+    } 
+  } else if(additional_opts.y == 1.0 || additional_opts.y == 2.0){
+    if(offset_vel.x < 0.0 + (radius * 2.0)) {
+      new_pos.x = 0.0 + radius * 2.0;
+      new_vel.x = additional_opts.y == 2.0 ? new_vel.x * -1.0 : 0.0;
     }
-    if(offset_vel.x > u_resolution.x + radius * 2.0 ) {
-      new_pos.x = new_pos.x - (u_resolution.x + radius * 4.0);
-      float rand = random(vec2(gl_InstanceID,u_time));
-      new_pos.y = clamp(rand * u_resolution.y,0.0,u_resolution.y);
+    if(offset_vel.y < 0.0 + (radius * 2.0)) {
+      new_pos.y = 0.0 + radius * 2.0;
+      new_vel.y = additional_opts.y == 2.0 ? new_vel.y * -1.0 : 0.0;;
     }
-    if(offset_vel.y > u_resolution.y + radius * 2.0 ) {
-      new_pos.y = new_pos.y - (u_resolution.y + radius * 4.0);
-      float rand = random(vec2(gl_InstanceID,u_time));
-      new_pos.x = clamp(rand * u_resolution.x,0.0,u_resolution.x);
+    if(offset_vel.x > u_resolution.x - radius * 2.0) {
+      new_pos.x = u_resolution.x - radius * 2.0;
+      new_vel.x = additional_opts.y == 2.0 ? new_vel.x * -1.0 : 0.0;;
     }
-    if(offset_vel.y < 0.0 - (radius * 2.0)) {
-      new_pos.y = new_pos.y + (u_resolution.y + radius * 4.0);
-      float rand = random(vec2(gl_InstanceID,u_time));
-      new_pos.x = clamp(rand * u_resolution.x,0.0,u_resolution.x);
+    if(offset_vel.y > u_resolution.y - radius * 2.0) {
+      new_pos.y = u_resolution.y - radius * 2.0;
+      new_vel.y = additional_opts.y == 2.0 ? new_vel.y * -1.0 : 0.0;;
     }
   }
 

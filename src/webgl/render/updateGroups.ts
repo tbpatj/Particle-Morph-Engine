@@ -122,6 +122,7 @@ export const updateGroups = (
   } else {
     document.body.style.cursor = "default";
   }
+  // gl.uniform1fv(uniforms.u.loc, matrices);
   gl.uniform1fv(uniforms.u_matrices.loc, matrices);
   gl.uniform1iv(uniforms.group_actions.loc, uniformActions);
   gl.uniform1fv(uniforms.group_rads.loc, groupRads);

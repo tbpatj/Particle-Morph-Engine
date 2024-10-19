@@ -10,21 +10,24 @@ export const initUniforms = (
 
   const addUniform = (name: string, type: UniformType, initialData?: any) => {
     const uniformLoc = gl.getUniformLocation(program, name);
-    if (uniformLoc)
+    if (uniformLoc) {
       uniforms[name] = {
         loc: uniformLoc,
         type,
         associatedProgram: "particles",
       };
+    } else {
+      console.error(`Could not find uniform location for ${name}`, uniformLoc);
+    }
   };
 
   //--------- find uniform locations ------------
   addUniform("mpc", "4f");
   addUniform("md", "4f");
   addUniform("md2", "4f");
+  addUniform("additional_opts", "4f");
   addUniform("scroll", "2f");
   addUniform("interaction_props", "4f");
-  addUniform("u_resolution", "2f");
   addUniform("u_resolution", "2f");
   addUniform("dt", "f");
   addUniform("u_matrices", "1fv");
