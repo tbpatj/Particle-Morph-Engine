@@ -47,7 +47,7 @@ if using npm, you may need to preface particles with global
 
 ```
 particles.init("particle-container")
-// or global.particles("particle-container")
+// or global.particles.init("particle-container")
 ```
 
 Check if the library initialization was successful
