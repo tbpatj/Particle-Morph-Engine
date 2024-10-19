@@ -1,13 +1,13 @@
 {
   "name": "particle-morph",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "lib-ts/index.js",
-  "types": "lib-ts/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "start": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && parcel build lib-ts/index.js --dist-dir lib --target default",
+    "build": "tsc && parcel build lib/index.js --dist-dir lib --target default",
     "build_2": "parcel build src/index.ts --public-url ./ --no-source-maps --dist-dir ./build --no-cache",
     "build_serve": "npm run build"
   },
@@ -33,7 +33,7 @@
   },
   "targets": {
     "default": {
-      "source": "lib-ts/index.js",
+      "source": "lib/index.js",
       "distDir": "lib",
       "publicUrl": "./",
       "engines": {
@@ -42,7 +42,7 @@
     }
   },
   "files": [
-    "lib-ts/**/*",
+    "lib/**/*",
     "src/**/*",
     "README.md",
     "LICENSE"
