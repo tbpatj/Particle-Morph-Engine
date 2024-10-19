@@ -22,6 +22,12 @@ Load in the library using the script tag, using either a built .js file or load 
 <script src="https://cdn.jsdelivr.net/gh/tbpatj/Particle-Morph-Engine@latest/build/index.js"></script>
 ```
 
+OR install using npm
+
+```
+npm i particle-morph
+```
+
 Make sure to create a div element with an id to contain the particles
 
 ```
@@ -30,8 +36,11 @@ Make sure to create a div element with an id to contain the particles
 
 Call the library init function passing in the particle container id as a string, the command will run synchronously and throw errors if something is wrong. The second parameter you pass can override default values for the particle engine, such as how many particles are in the background
 
+if using npm, you may need to preface particles with global
+
 ```
 particles.init("particle-container")
+// or global.particles("particle-container")
 ```
 
 Check if the library initialization was successful
@@ -40,6 +49,7 @@ Check if the library initialization was successful
 if(particles.ready) {
     //do what ever you want
 }
+// or global.particles.ready
 ```
 
 If you properly ran this code you should see the default floating particles displaying on the screen,
@@ -285,4 +295,3 @@ Since this was orignally a part of my portfolio and I had created a whole engine
 - add back in the fps reporting (very useful for devices that are running something on the graphics card already, like figma, photoshop or some other graphics heavy application,) this enables the program to not attempt to run if its causing too much lag as sometimes that is the case
 - optimize and update the allocation of particles
 - add the ability to create basic shapes. Instead of just text and images, you could do shape: "circle" or something and it would create a circle and render that to the ctx.
-- npm package of sorts so you can get the types associated when working on the project
