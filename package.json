@@ -2,12 +2,13 @@
   "name": "particles",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib-ts/index.js",
+  "types": "lib-ts/index.d.ts",
   "scripts": {
     "start": "parcel src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build src/index.ts --dist-dir dist --out-file particles.js",
-    "build_2": "parcel build src/index.ts --public-url ./  --no-source-maps --dist-dir ./build --no-cache",
+    "build": "tsc && parcel build lib-ts/index.js --dist-dir lib --target default",
+    "build_2": "parcel build src/index.ts --public-url ./ --no-source-maps --dist-dir ./build --no-cache",
     "build_serve": "npm run build"
   },
   "repository": {
@@ -29,5 +30,21 @@
   "devDependencies": {
     "parcel": "^2.12.0",
     "typescript": "^5.5.2"
-  }
+  },
+  "targets": {
+    "default": {
+      "source": "lib-ts/index.js",
+      "distDir": "lib",
+      "publicUrl": "./",
+      "engines": {
+        "browsers": "> 0.25%, not dead"
+      }
+    }
+  },
+  "files": [
+    "lib-ts/**/*",
+    "src/**/*",
+    "README.md",
+    "LICENSE"
+  ]
 }

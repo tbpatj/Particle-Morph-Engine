@@ -1,5 +1,6 @@
 export const initDPIAndFPS = () => {
   const setDPI = (dpi: number) => {
+    if (!particles?.glCE) return;
     const parentElement = particles.glCE.parentElement;
     if (parentElement) {
       particles.glSize.width = parentElement.clientWidth;
