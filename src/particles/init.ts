@@ -16,6 +16,10 @@ export const initParticles = (
   particles.options = { ...particles.options, ...iOptions };
   //particle renderer
   const pCElem = document.getElementById(particleContainer);
+  if (pCElem === null)
+    throw new Error(
+      `The particle container element with id: ${particleContainer} was not found.`
+    );
   if (particleContainer === null)
     throw new Error(
       `The particle container element with id: ${particleContainer} was not found.`
@@ -77,7 +81,8 @@ export const initParticles = (
     console.log("cleaning");
     cancelAnimationFrame(particles.animFrameCBNum);
     cleanUpMouse();
-    cleanUpGL(particles.gl, particles.glDeps);
+    if (particles.gl && particles.glDeps)
+      cleanUpGL(particles.gl, particles.glDeps);
     cleanUpMisc();
   });
   particles.ready = true;

@@ -50,6 +50,7 @@ export const updateGroups = (
         mouse: structuredClone(mouse),
         groupKey: key,
         group: { ...group },
+        coords: group?.lastMouseEvent?.coords ?? { x: 0, y: 0 }, // Provide default value for coords
       });
     }
     //check if the group was clicked on
@@ -67,6 +68,7 @@ export const updateGroups = (
             mouse: structuredClone(mouse),
             groupKey: key,
             group: { ...group },
+            coords: group?.lastMouseEvent?.coords ?? { x: 0, y: 0 }, // Provide default value for coords
           });
         }
         group.dragging = false;

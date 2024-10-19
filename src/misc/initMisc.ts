@@ -1,4 +1,5 @@
 const adjustSize = () => {
+  if (!particles.glCE) return;
   //TODO adjust the particles.glSize.width and particles.glSize.height to be the new size of the canvas by using the parent element
   const parentElement = particles.glCE.parentElement;
   if (parentElement) {
