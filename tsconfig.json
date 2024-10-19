@@ -1,16 +1,32 @@
+// {
+//   "compilerOptions": {
+//     "module": "commonJS",
+//     "outDir": "./lib",
+//     // "outFile": "./build/index.js",
+//     "target": "ES6",
+//     "sourceMap": false,
+//     "allowJs": true,
+//     "lib": ["es2017", "dom"],
+//     "typeRoots": ["node_modules/@types"],
+//     "esModuleInterop": true,
+//     "skipLibCheck": true
+//   },
+//   "include": ["src/**/*.ts", "node_modules/@types", "src/global.d.ts"],
+//   "exclude": [".git", "node_modules"]
+// }
 {
   "compilerOptions": {
-    "module": "system",
-    "moduleResolution": "node",
-    "outFile": "./build/index.js",
     "target": "ES6",
-    "sourceMap": false,
-    "allowJs": true,
-    "lib": ["es2017", "dom"],
-    "typeRoots": ["node_modules/@types"],
+    "module": "ES6",
+    "outDir": "./lib-ts",
+    "rootDir": "./src",
+    "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true, // Generate .d.ts declaration files
+    "sourceMap": true, // Generate source maps
+    "moduleResolution": "node",
+    "sourceRoot": "../src" // Adjust this path as needed
   },
-  "include": ["src/**/*.ts", "node_modules/@types", "src/global.d.ts"],
-  "exclude": [".git", "node_modules"]
+  "include": ["src/**/*"]
 }

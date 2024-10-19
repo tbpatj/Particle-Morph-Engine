@@ -1,0 +1,10 @@
+# .npmignore
+node_modules/
+dist/
+lib/
+.parcel-cache/
+src/
+test/
+demo/
+*.log
+*.tgz

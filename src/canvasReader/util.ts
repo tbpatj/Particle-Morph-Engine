@@ -21,8 +21,8 @@ export const PxPercStringToNumber = (
   vertical: boolean,
   dpi?: number
 ) => {
-  let operations: any[] = stringToOperations(string);
-  const calcIncluded = operations.includes("calc");
+  let operations: string[] = stringToOperations(string);
+  const calcIncluded = operations.find((v) => v === "calc");
   operations = Parentheses(operations).layer;
   operations = AdjustFunctions(operations);
   if (calcIncluded) {
