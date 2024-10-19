@@ -28,6 +28,13 @@ OR install using npm
 npm i particle-morph
 ```
 
+(if using npm be sure to import the particle-morph engine in the entry file or file with which you will start using the engine)
+
+```
+//if using npm package
+import "particle-morph"
+```
+
 Make sure to create a div element with an id to contain the particles
 
 ```
