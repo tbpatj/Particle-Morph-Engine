@@ -90,7 +90,7 @@ export const initGroups = () => {
       const range = getAvailableParticleRange(
         groups,
         amountOfParticles,
-        particles.options.prtcleCnt,
+        particles.options.particleCount,
         group,
         particles.options
       );
@@ -162,7 +162,13 @@ export const initGroups = () => {
           enabled: gInput?.enabled ?? true,
           radius: gInput?.radius ?? 6,
           hitbox: hitbox,
-          clickCallback: gInput.clickCallback,
+          held: false,
+          dragging: false,
+          clickCallback: gInput?.clickCallback,
+          clickUpCallback: gInput?.clickUpCallback,
+          onDragStart: gInput?.onDragStart,
+          onDragEnd: gInput?.onDragEnd,
+          onDrag: gInput?.onDrag,
         };
       }
     }

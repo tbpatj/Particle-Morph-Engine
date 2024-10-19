@@ -8,6 +8,12 @@ Make sure you are not running other heavy graphics applications such as figma, p
 
 https://github.com/tbpatj/Particle-Morph-Engine/assets/15040109/31836618-25e6-49c5-85f1-a4956be87166
 
+# Additional
+
+node and browser versions need to be >= 17. project uses calls such as
+
+- structuredClone
+
 # How to Setup:
 
 Load in the library using the script tag, using either a built .js file or load it from a external source
@@ -37,7 +43,7 @@ if(particles.ready) {
 ```
 
 If you properly ran this code you should see the default floating particles displaying on the screen,
-The amount of these particles can be changed before running the .init function by changing particles.options.backgroundParticleCount, which also has to be equal to or less than particles.options.prtcleCnt
+The amount of these particles can be changed before running the .init function by changing particles.options.backgroundParticleCount, which also has to be equal to or less than particles.options.particleCount
 
 # How to create particle groups
 
@@ -251,7 +257,7 @@ Not all options have been implemented in this version, I had to redo the entire 
 ```
 const options: WrapperOptions = {
   resolutionPercent: 50,
-  prtcleCnt: 50000,
+  particleCount: 50000,
   backgroundParticleCount: 500,
   mapParticlesToClosestPoint: false,
   prtclDstRng: 0.5,

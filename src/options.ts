@@ -27,7 +27,7 @@ export const DEFAULT_MAX_GROUPS = 10;
 
 export const DEFAULT_OPTIONS: WrapperOptions = {
   resolutionPercent: DEFAULT_RESOLUTION_PERCENT,
-  prtcleCnt: DEFAULT_PRTCL_CNT,
+  particleCount: DEFAULT_PRTCL_CNT,
   backgroundParticleCount: DEFAULT_BACKGROUND_PARTICLE_COUNT,
   mapParticlesToClosestPoint: DEFAULT_MAP_PARTICLES_TO_CLOSEST_POINT,
   prtclDstRng: DEFAULT_PRTCL_DST_RNG,

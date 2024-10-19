@@ -39,6 +39,25 @@ export const webGLLoop = (
   gl.uniform1f(uniforms.u_time.loc, performance.now());
   gl.uniform1f(uniforms.dpi.loc, dpi);
   gl.uniform2f(uniforms.scroll.loc, mouse.scrollDX, mouse.scrollDY / 7);
+  const interactionType =
+    options.mouseClickInteractionType === "push"
+      ? 0.0
+      : options.mouseClickInteractionType === "orbit"
+      ? 1.0
+      : 2.0;
+  const edgeInteractionType =
+    options.edgeInteractionType === "bounce"
+      ? 2.0
+      : options.edgeInteractionType === "teleport"
+      ? 0.0
+      : 0.0;
+  gl.uniform4f(
+    uniforms.additional_opts.loc,
+    interactionType,
+    edgeInteractionType,
+    0.0,
+    0.0
+  );
   // gl.uniform2f(uniforms.scroll.loc, mouse.scrollDX, mouse.scrollDY);
   gl.uniform4f(
     uniforms.interaction_props.loc,

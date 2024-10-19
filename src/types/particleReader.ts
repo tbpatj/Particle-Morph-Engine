@@ -1,6 +1,6 @@
 import ColorRGB from "../classes/colorRGB";
 import Vector2D from "../classes/vector2D";
-import { GroupAction } from "./groups";
+import { GroupAction, GroupMouseEvent } from "./groups";
 
 export interface CanvasPoint {
   pos: Vector2D;
@@ -112,7 +112,11 @@ export interface GroupInput {
   shufflePoints?: boolean;
   prtclDstRng?: number;
   removeWhite?: boolean;
-  clickCallback?: (coords?: { x: number; y: number }) => void;
+  clickCallback?: (props?: GroupMouseEvent) => void;
+  clickUpCallback?: (props?: GroupMouseEvent) => void;
+  onDragStart?: (props?: GroupMouseEvent) => void;
+  onDragEnd?: (props?: GroupMouseEvent) => void;
+  onDrag?: (props?: GroupMouseEvent) => void;
 }
 
 export interface AddInputGroupOptions {

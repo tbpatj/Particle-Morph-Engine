@@ -8,11 +8,11 @@ export const getGLData = (
 ) => {
   const data: GLData = {};
   createVertexData(data);
-  createOffsetVelocities(data, width, height, options.prtcleCnt);
-  createDestData(data, options.prtcleCnt);
-  createColorDataWDest(data, options.prtcleCnt);
-  createRadiusData(data, options.prtcleCnt);
-  createLifetimeData(data, options.prtcleCnt);
+  createOffsetVelocities(data, width, height, options.particleCount);
+  createDestData(data, options.particleCount);
+  createColorDataWDest(data, options.particleCount);
+  createRadiusData(data, options.particleCount);
+  createLifetimeData(data, options.particleCount);
   return data;
 };
 

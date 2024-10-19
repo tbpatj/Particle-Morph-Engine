@@ -13,34 +13,37 @@
     <script>
       document.addEventListener("DOMContentLoaded",async () => {
         // Code to be executed after the DOM is loaded
-        particles.init("particle-container");
+        particles.init("particle-container",{particleCount: 50000,backgroundParticleCount: 0, mouseClickInteractionType: "orbit", mouseClickInteractionFieldIntensity: 0.05, edgeInteractionType: "bounce"});
         if(particles.glReady) particles.start()
         
         //load in an image
-        // const myImage = await particles.loadImageURL("");
 
+        const myImage = await particles.loadImageURL("https://picsum.photos/800/800.jpg",true);
         particles.addInputGroup({
           group: 0,
           xPos: "50%",
           yPos: "50%",
+          shufflePoints: true,
           inputs: [
             //add the image to the inputs
-            // {
-            //   image: myImage,
-            // },
             {
-              text:"Hello World"
-            }
+              image: myImage,
+              scaleX: 1,
+              scaleY: 1,
+            },
           ],
-          allocatedParticles: 8000,
-          radius: 3,
-          removeWhite: true,
-          action:{
-            type:"both",
-            xPos:"50%",
-            yPos:"50%",
-            mode: "set",
-          }
+          prtclDstRng: 0.9,
+          allocatedParticles: 50000,
+          radius: 2,
+          removeWhite: false,
+          clickCallback: (e) => {
+            if(e.group.enabled){
+              particles.disableGroups([0]);
+            } else {
+              particles.enableGroups([0]);
+            }
+          },
+          
         });
 
       });

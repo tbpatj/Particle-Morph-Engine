@@ -1,3 +1,5 @@
+import { MouseCursor } from "./mouse";
+
 export type ParticleGroups = { [index: number]: ParticleGroup };
 
 export interface StoredRange {
@@ -65,6 +67,19 @@ export interface HitBox {
   height: number;
 }
 
+export interface GroupEvent {
+  group: ParticleGroup;
+  groupKey: string;
+}
+
+export interface PMouseEvent {
+  //the coords within the bounds of the group where the mouse was clicked, so if it was clicked in the center of the hitbox it would be x: 0, y: 0
+  coords: { x: number; y: number };
+  mouse: MouseCursor;
+}
+
+export type GroupMouseEvent = GroupEvent & PMouseEvent;
+
 export interface ParticleGroup extends StoredRange {
   xPos: string;
   yPos: string;
@@ -76,5 +91,12 @@ export interface ParticleGroup extends StoredRange {
   lifetime?: number;
   action?: GroupAction | GroupIndividualAction;
   hitbox: HitBox;
-  clickCallback?: (coords?: { x: number; y: number }) => void;
+  held: boolean;
+  dragging: boolean;
+  lastMouseEvent?: PMouseEvent;
+  clickCallback?: (props?: GroupMouseEvent) => void;
+  clickUpCallback?: (props?: GroupMouseEvent) => void;
+  onDragStart?: (props?: GroupMouseEvent) => void;
+  onDragEnd?: (props?: GroupMouseEvent) => void;
+  onDrag?: (props?: GroupMouseEvent) => void;
 }

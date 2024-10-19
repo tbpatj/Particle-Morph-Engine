@@ -7,5 +7,7 @@ export const excludeOldMouseEntries = (mouse: MouseCursor) => {
 
 export const removeInitalAndLiftingClicks = (mouse: MouseCursor) => {
   if (mouse.leftClick) mouse.leftClick = false;
+  if (mouse.leftMouseUp) mouse.leftMouseUp = false;
   if (mouse.rightClick) mouse.rightClick = false;
+  if (mouse.rightMouseUp) mouse.rightMouseUp = false;
 };
