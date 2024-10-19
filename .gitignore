@@ -6,6 +6,9 @@
 .pnp.js
 /dist
 .parcel-cache
+/lib
+
+particle-morph-*.tgz
 
 # testing
 /coverage
