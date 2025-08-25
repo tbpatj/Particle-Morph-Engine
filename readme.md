@@ -298,6 +298,7 @@ const options: WrapperOptions = {
 
 Since this was orignally a part of my portfolio and I had created a whole engine before this one this one was to optimize there are things that still need to be done:
 
+- add in vector map, for more fluid dynamics of particles
 - pull back in some of the old options
 - add back in the fps reporting (very useful for devices that are running something on the graphics card already, like figma, photoshop or some other graphics heavy application,) this enables the program to not attempt to run if its causing too much lag as sometimes that is the case
 - optimize and update the allocation of particles
