@@ -16,35 +16,81 @@
         particles.init("particle-container",{particleCount: 50000,backgroundParticleCount: 0, mouseClickInteractionType: "orbit", mouseClickInteractionFieldIntensity: 0.05, edgeInteractionType: "bounce"});
         if(particles.glReady) particles.start()
         
-        //load in an image
+        // Prefer experimental HTML-in-Canvas when available (Chrome 146+ with
+        // chrome://flags/#canvas-draw-element). Otherwise fall back to an image.
+        const canHtml =
+          particles.readerCE &&
+          particles.ctx &&
+          particles.supportsHtmlInCanvas(particles.readerCE, particles.ctx);
 
-        const myImage = await particles.loadImageURL("https://picsum.photos/800/800.jpg",true);
-        particles.addInputGroup({
-          group: 0,
-          xPos: "50%",
-          yPos: "50%",
-          shufflePoints: true,
-          inputs: [
-            //add the image to the inputs
-            {
-              image: myImage,
-              scaleX: 1,
-              scaleY: 1,
+        if (canHtml) {
+          await particles.addInputGroup({
+            group: 0,
+            xPos: "50%",
+            yPos: "50%",
+            shufflePoints: true,
+            inputs: [
+              {
+                html: `
+                  <div style="
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:center;
+                    width:100%;
+                    height:100%;
+                    font-family:Georgia,serif;
+                    color:#111;
+                  ">
+                    <h1 style="margin:0;font-size:64px;">HTML → Particles</h1>
+                    <p style="margin:12px 0 0;font-size:22px;">drawn with drawElementImage</p>
+                  </div>
+                `,
+                width: 640,
+                height: 240,
+                xPos: "50%",
+                yPos: "50%",
+              },
+            ],
+            prtclDstRng: 0.9,
+            allocatedParticles: 50000,
+            radius: 2,
+            removeWhite: true,
+            clickCallback: (e) => {
+              if(e.group.enabled){
+                particles.disableGroups([0]);
+              } else {
+                particles.enableGroups([0]);
+              }
             },
-          ],
-          prtclDstRng: 0.9,
-          allocatedParticles: 50000,
-          radius: 2,
-          removeWhite: false,
-          clickCallback: (e) => {
-            if(e.group.enabled){
-              particles.disableGroups([0]);
-            } else {
-              particles.enableGroups([0]);
-            }
-          },
-          
-        });
+          });
+        } else {
+          const myImage = await particles.loadImageURL("https://picsum.photos/800/800.jpg",true);
+          particles.addInputGroup({
+            group: 0,
+            xPos: "50%",
+            yPos: "50%",
+            shufflePoints: true,
+            inputs: [
+              {
+                image: myImage,
+                scaleX: 1,
+                scaleY: 1,
+              },
+            ],
+            prtclDstRng: 0.9,
+            allocatedParticles: 50000,
+            radius: 2,
+            removeWhite: false,
+            clickCallback: (e) => {
+              if(e.group.enabled){
+                particles.disableGroups([0]);
+              } else {
+                particles.enableGroups([0]);
+              }
+            },
+          });
+        }
 
       });
        </script>

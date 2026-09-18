@@ -1,5 +1,9 @@
 import { CanvasPointData } from "../canvasReader/canvasReading";
 import {
+  renderHtmlToCtx,
+  supportsHtmlInCanvas,
+} from "../canvasReader/renderFuncs";
+import {
   AddFromPoints,
   DeleteAllGroups,
   DisableGroups,
@@ -110,7 +114,9 @@ export interface DefaultedWrapperOptions {
   maxGroups: number;
 }
 
-export type AddInputGroupFunc = (gInput: GroupInput) => void;
+export type AddInputGroupFunc = (
+  gInput: GroupInput
+) => void | Promise<void>;
 
 export interface ParticleController {
   deleteAllGroups: DeleteAllGroups;
@@ -208,6 +214,13 @@ export interface WrapperControlFuncs {
 
 export interface Util {
   loadImageURL(url: string): Promise<HTMLImageElement>;
+  /**
+   * Paint HTML into a canvas via the experimental HTML-in-Canvas API
+   * (`layoutsubtree` + `requestPaint` + `drawElementImage`).
+   */
+  renderHtmlToCtx: typeof renderHtmlToCtx;
+  /** Check whether this canvas/context exposes HTML-in-Canvas APIs. */
+  supportsHtmlInCanvas: typeof supportsHtmlInCanvas;
 }
 
 export type ParticleGlobalController = ParticleController &

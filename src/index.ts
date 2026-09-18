@@ -7,6 +7,10 @@ import { initialMouseCursorObject } from "./types/mouse";
 import { startLoop } from "./particles/start";
 import { CanvasPointData } from "./canvasReader/canvasReading";
 import { loadImageURL } from "./utils/loadImage";
+import {
+  renderHtmlToCtx,
+  supportsHtmlInCanvas,
+} from "./canvasReader/renderFuncs";
 
 globalThis.particles = {
   deleteAllGroups: (useGroupLifetime?: boolean) =>
@@ -26,6 +30,8 @@ globalThis.particles = {
   init: initParticles,
   start: startLoop,
   loadImageURL: loadImageURL,
+  renderHtmlToCtx,
+  supportsHtmlInCanvas,
   loop: () => console.error("Particles not initialized"),
   enabled: false,
   ready: false,

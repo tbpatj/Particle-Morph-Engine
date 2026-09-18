@@ -94,7 +94,26 @@ export interface ParticleImageInput extends BasicParticleInput {
   height?: number;
 }
 
-export type ParticleInput = ParticleImageInput | ParticleTextInput;
+/**
+ * Render real HTML into the reader canvas via the experimental HTML-in-Canvas API
+ * (`layoutsubtree` + `drawElementImage`). Requires Chrome 146+ with
+ * chrome://flags/#canvas-draw-element enabled.
+ */
+export interface ParticleHtmlInput extends BasicParticleInput {
+  /** HTML string or element to paint into the canvas */
+  html: string | HTMLElement;
+  /** Optional inline CSS applied to the wrapper around the HTML */
+  css?: string;
+  /** Wrapper width in CSS pixels (defaults to canvas width) */
+  width?: number;
+  /** Wrapper height in CSS pixels (defaults to canvas height) */
+  height?: number;
+}
+
+export type ParticleInput =
+  | ParticleImageInput
+  | ParticleTextInput
+  | ParticleHtmlInput;
 
 export interface GroupInput {
   inputs: ParticleInput[];

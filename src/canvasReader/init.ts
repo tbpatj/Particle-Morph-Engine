@@ -1,12 +1,17 @@
 import {
   GroupInput,
+  ParticleHtmlInput,
   ParticleImageInput,
   ParticleInput,
   ParticleTextInput,
 } from "../types/particleReader";
 import { shuffle } from "../utils/lists";
 import { getCanvasPoints } from "./canvasReading";
-import { renderImageToCtx, renderTextToCtx } from "./renderFuncs";
+import {
+  renderHtmlToCtx,
+  renderImageToCtx,
+  renderTextToCtx,
+} from "./renderFuncs";
 
 export const initCanvasReader = (
   canvasEl: HTMLCanvasElement
@@ -16,6 +21,8 @@ export const initCanvasReader = (
   //intialize the ctx context for rendering images and other things to the canvas
   const Ctx = canvasEl.getContext("2d", { willReadFrequently: true });
   particles.readerCE = canvasEl;
+  // Opt-in for experimental HTML-in-Canvas (layoutsubtree + drawElementImage).
+  canvasEl.setAttribute("layoutsubtree", "");
   particles.readerCE.width = particles.glSize.width * particles.dpi;
   particles.readerCE.height = particles.glSize.height * particles.dpi;
   particles.readerSize.width = canvasEl.width;
@@ -26,9 +33,9 @@ export const initCanvasReader = (
   }
   //create the functions for the canvas reader
 
-  const updateCTXForProcessing = (inputs: ParticleInput[]) => {
+  const updateCTXForProcessing = async (inputs: ParticleInput[]) => {
     let renderedToCanvas = false;
-    if (particles.ctx) {
+    if (particles.ctx && particles.readerCE) {
       particles.ctx.clearRect(
         0,
         0,
@@ -59,18 +66,30 @@ export const initCanvasReader = (
             particles.dpi
           );
           renderedToCanvas = true;
+          // experimental: paint HTML into the canvas, then reuse the same pixel pipeline
+        } else if (renderTask?.html !== undefined) {
+          const input = renderTask as ParticleHtmlInput;
+          const ok = await renderHtmlToCtx(
+            input,
+            particles.readerCE,
+            particles.ctx,
+            particles.readerSize.width,
+            particles.readerSize.height,
+            particles.dpi
+          );
+          if (ok) renderedToCanvas = true;
         }
       }
     }
     return renderedToCanvas;
   };
 
-  const addInputs = (gInput: GroupInput) => {
+  const addInputs = async (gInput: GroupInput) => {
     if (particles.ctx) {
       const { inputs } = gInput;
       if (inputs.length > 0) {
         //iterate through all of the inputs passed in and render them to the canvas
-        const renderedToCanvas = updateCTXForProcessing(inputs);
+        const renderedToCanvas = await updateCTXForProcessing(inputs);
         if (renderedToCanvas) {
           // console.log(sizeRef.current.width);
           const image = particles.ctx.getImageData(
