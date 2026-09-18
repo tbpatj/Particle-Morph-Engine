@@ -1,5 +1,5 @@
 import {
-  CanvasPoint,
+  ParticleHtmlInput,
   ParticleImageInput,
   ParticleInput,
   ParticleTextInput,
@@ -10,6 +10,14 @@ import {
   ParticleWrapperRadialGradient,
 } from "../types/particleReader";
 import { PxPercStringToNumber, stringToPXPerc } from "./util";
+
+/** True when the experimental HTML-in-Canvas APIs are present on this canvas/context. */
+export const supportsHtmlInCanvas = (
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D
+) =>
+  typeof canvas.requestPaint === "function" &&
+  typeof ctx.drawElementImage === "function";
 
 const createLinearGradient = (
   ctx: CanvasRenderingContext2D,
@@ -195,4 +203,152 @@ export const renderImageToCtx = (
   //stamp the image onto the canvas
   ctx.drawImage(image, 0, 0, iw, ih);
   ctx.restore();
+};
+
+const HTML_CONTENT_ATTR = "data-particle-html-content";
+
+/**
+ * Renders HTML into the canvas using the experimental HTML-in-Canvas API.
+ * Puts content as a canvas child (with layoutsubtree), waits for `paint`,
+ * then draws it with `drawElementImage` so the existing pixel pipeline can
+ * turn it into particles.
+ *
+ * @see https://blog.master.dev/the-web-is-fun-again-first-experiments-with-html-in-canvas/
+ */
+export const renderHtmlToCtx = (
+  input: ParticleHtmlInput,
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  ww: number,
+  wh: number,
+  dpi: number
+): Promise<boolean> => {
+  return new Promise((resolve) => {
+    if (!supportsHtmlInCanvas(canvas, ctx)) {
+      console.warn(
+        "[particles] HTML-in-Canvas is unavailable. Enable chrome://flags/#canvas-draw-element (Chrome 146+)."
+      );
+      resolve(false);
+      return;
+    }
+
+    // Opt descendants into layout + hit testing (required by the API).
+    canvas.setAttribute("layoutsubtree", "");
+
+    // Reader canvas is normally 0x0 so it does not show; give it layout space
+    // while HTML is measured/painted, then restore.
+    const prevStyle = {
+      width: canvas.style.width,
+      height: canvas.style.height,
+      position: canvas.style.position,
+      left: canvas.style.left,
+      top: canvas.style.top,
+      overflow: canvas.style.overflow,
+      opacity: canvas.style.opacity,
+      pointerEvents: canvas.style.pointerEvents,
+    };
+    const cssW = ww / dpi;
+    const cssH = wh / dpi;
+    canvas.style.width = `${cssW}px`;
+    canvas.style.height = `${cssH}px`;
+    canvas.style.position = "absolute";
+    canvas.style.left = "-99999px";
+    canvas.style.top = "0";
+    canvas.style.overflow = "hidden";
+    canvas.style.opacity = "0";
+    canvas.style.pointerEvents = "none";
+
+    // Drop any previous html wrappers from this canvas.
+    canvas
+      .querySelectorAll(`[${HTML_CONTENT_ATTR}]`)
+      .forEach((node) => node.remove());
+
+    const content = document.createElement("div");
+    content.setAttribute(HTML_CONTENT_ATTR, "true");
+    content.className = "particle-html-content";
+
+    const contentW = input.width ?? cssW;
+    const contentH = input.height ?? cssH;
+    content.style.cssText = [
+      "box-sizing:border-box",
+      `width:${contentW}px`,
+      `height:${contentH}px`,
+      "margin:0",
+      "padding:0",
+      input.css ?? "",
+    ]
+      .filter(Boolean)
+      .join(";");
+
+    if (typeof input.html === "string") {
+      content.innerHTML = input.html;
+    } else {
+      content.appendChild(input.html.cloneNode(true));
+    }
+
+    canvas.appendChild(content);
+
+    let settled = false;
+    const cleanup = () => {
+      content.remove();
+      canvas.style.width = prevStyle.width;
+      canvas.style.height = prevStyle.height;
+      canvas.style.position = prevStyle.position;
+      canvas.style.left = prevStyle.left;
+      canvas.style.top = prevStyle.top;
+      canvas.style.overflow = prevStyle.overflow;
+      canvas.style.opacity = prevStyle.opacity;
+      canvas.style.pointerEvents = prevStyle.pointerEvents;
+    };
+
+    const finish = (ok: boolean) => {
+      if (settled) return;
+      settled = true;
+      canvas.removeEventListener("paint", onPaint);
+      cleanup();
+      resolve(ok);
+    };
+
+    const onPaint = () => {
+      try {
+        // Do not ctx.reset() — that clears prior text/image stamps in the same group.
+        ctx.save();
+        if (input.filter) ctx.filter = input.filter;
+        const scaleX = input.scaleX ?? 1;
+        const scaleY = input.scaleY ?? 1;
+        const ihw = (contentW * dpi * scaleX) / 2;
+        const ihh = (contentH * dpi * scaleY) / 2;
+        adjustRenderPosition(ctx, input, ww, wh, dpi, ihw, ihh);
+        if (scaleX !== 1 || scaleY !== 1) {
+          ctx.scale(scaleX, scaleY);
+        }
+        // Core HTML-in-Canvas draw: snapshot the laid-out element into pixels.
+        ctx.drawElementImage!(content, 0, 0);
+        ctx.restore();
+        finish(true);
+      } catch (err) {
+        console.error("[particles] drawElementImage failed:", err);
+        try {
+          ctx.restore();
+        } catch {
+          /* ignore */
+        }
+        finish(false);
+      }
+    };
+
+    canvas.addEventListener("paint", onPaint);
+    // Kick the paint pipeline so we get a cached paint record to draw from.
+    canvas.requestPaint!();
+
+    // Safety timeout if the flag is off or paint never fires.
+    window.setTimeout(() => {
+      if (!settled) {
+        console.warn(
+          "[particles] HTML-in-Canvas paint timed out. Is canvas-draw-element enabled?"
+        );
+        finish(false);
+      }
+    }, 2000);
+  });
 };
